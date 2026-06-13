@@ -3882,6 +3882,34 @@ body {
   padding: 28px 24px;
 }
 
+.cw-output-video-grid {
+  align-items: start;
+  gap: 34px;
+}
+
+.cw-output-video-card {
+  background: rgba(255, 255, 255, 0.035);
+  border-color: rgba(139, 92, 246, 0.16);
+  border-radius: 16px;
+}
+
+.cw-output-video-card:hover {
+  border-color: rgba(236, 72, 153, 0.34);
+}
+
+.cw-output-video-card .video-poster {
+  background: #0B0B12;
+}
+
+.cw-output-video-card .video-card-info {
+  padding: 20px 22px 22px;
+}
+
+.cw-output-video-card .video-type-tag {
+  background: rgba(139, 92, 246, 0.14);
+  color: #C4B5FD;
+}
+
 .api-flow-pro {
   display: grid;
   gap: 18px;
