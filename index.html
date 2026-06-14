@@ -1000,14 +1000,14 @@
         <div class="cover-project-num">PROJECT 02</div>
         <h1 class="cover-project-name" data-i18n="t8fb40d">AI 漫剧制作系统</h1>
         <div class="cover-project-name-en">AI Comic Production Workflow System</div>
-        <p class="cover-subtitle" data-i18n="t017440">从剧本输入到分镜、视觉资产、API 调用与视频生成的内容生产流程</p>
+        <p class="cover-subtitle" data-i18n="t017440">把剧本拆解、资产匹配、批量生成与结果复盘整合进同一个 AI 漫剧工作室</p>
         <div class="cover-tags">
           <span class="tag" data-i18n="t5f443e">剧本输入</span>
-          <span class="tag" data-i18n="t400ab6">分镜生成</span>
+          <span class="tag" data-i18n="t400ab6">镜头拆解</span>
           <span class="tag" data-i18n="tc79999">角色库</span>
           <span class="tag" data-i18n="t5751c7">场景库</span>
-          <span class="tag" data-i18n="t3c8dd9">Prompt 组织</span>
-          <span class="tag">Seedance API</span>
+          <span class="tag" data-i18n="t3c8dd9">批量生成</span>
+          <span class="tag" data-i18n="tcw_tag_api_log">API 日志</span>
         </div>
         <p class="cover-meta" data-i18n="t55f547">2026.05 – 至今 · 个人项目</p>
       </div>
@@ -1023,8 +1023,8 @@
             <div class="cw-toolbar-tabs">
               <span class="cw-toolbar-tab active" data-i18n="tc79999">角色库</span>
               <span class="cw-toolbar-tab" data-i18n="t5751c7">场景库</span>
-              <span class="cw-toolbar-tab" data-i18n="te1c72d">分镜库</span>
-              <span class="cw-toolbar-tab" data-i18n="td5484f">API调用</span>
+              <span class="cw-toolbar-tab" data-i18n="te1c72d">生成设置</span>
+              <span class="cw-toolbar-tab" data-i18n="td5484f">批量生成</span>
               <span class="cw-toolbar-tab" data-i18n="t0c4391">生成记录</span>
             </div>
           </div>
@@ -1034,14 +1034,14 @@
             <div class="cw-flow-row">
               <span class="cw-flow-node purple" data-i18n="t5f443e">剧本输入</span>
               <span class="cw-flow-arrow">→</span>
-              <span class="cw-flow-node cyan" data-i18n="t400ab6">分镜生成</span>
+              <span class="cw-flow-node cyan" data-i18n="t400ab6">参数设置</span>
               <span class="cw-flow-arrow">→</span>
-              <span class="cw-flow-node amber" data-i18n="t87eb4e">API 调用</span>
+              <span class="cw-flow-node amber" data-i18n="t87eb4e">结果复盘</span>
             </div>
             <!-- 占位图：16:9 桌面网页横图比例 -->
             <div class="cw-studio-placeholder">
               <!-- 图片3：漫剧工作室界面截图 -->
-              <img class="portfolio-img wide-img" src="assets/images/comic/cw-studio.png" alt="" />
+              <img class="portfolio-img wide-img" src="assets/images/comic/cw-flow-03-preview.jpg" alt="" style="object-fit: contain; background: #0B0B12;" />
             </div>
           </div>
           <!-- 底部状态栏 -->
@@ -1133,50 +1133,51 @@
       <div class="layout-f-header">
         <div class="section-label">
           <span class="accent-line-sm" style="background: var(--cw-secondary);"></span>
-          <span class="en-label">PRODUCTION PIPELINE</span>
+          <span class="en-label">UPDATED PIPELINE</span>
         </div>
-        <h2 class="cn-title-md" data-i18n="t0adf74">完整生产流程</h2>
+        <h2 class="cn-title-md" data-i18n="tcw_pipeline_title">完整生产闭环</h2>
       </div>
       <div class="layout-f-body">
         <div class="flowchart-container">
           <div class="flowchart-node dark">
-            <span data-i18n="cw_flow_node_input">小说/剧本</span>
-            <div class="flowchart-tool" data-i18n="t843f01">📝 输入</div>
+            <span data-i18n="tcw_flow_login">登录访问</span>
+            <div class="flowchart-tool" data-i18n="tcw_flow_subdomain">子域名部署</div>
           </div>
           <span class="flowchart-arrow dark">→</span>
           <div class="flowchart-node dark">
-            <span data-i18n="cw_flow_node_character">角色图</span>
-            <div class="flowchart-tool">ChatGPT Image 2</div>
+            <span data-i18n="tcw_flow_image_gen">图片生成</span>
+            <div class="flowchart-tool" data-i18n="tcw_flow_template">模板 / 风格 / 资产</div>
           </div>
           <span class="flowchart-arrow dark">→</span>
           <div class="flowchart-node dark">
-            <span data-i18n="cw_flow_node_scene">场景图</span>
-            <div class="flowchart-tool">ChatGPT Image 2</div>
+            <span data-i18n="tcw_flow_add_asset">加入资产库</span>
+            <div class="flowchart-tool" data-i18n="tcw_flow_asset_types">角色 / 场景 / 服装</div>
           </div>
           <span class="flowchart-arrow dark">→</span>
           <div class="flowchart-node dark">
-            <span data-i18n="cw_flow_node_storyboard">分镜脚本</span>
-            <div class="flowchart-tool" data-i18n="t8cbd09">🎬 Python自动化</div>
+            <span data-i18n="tcw_flow_video_ref">视频页引用</span>
+            <div class="flowchart-tool" data-i18n="tcw_flow_ref_import">参考图一键带入</div>
           </div>
         </div>
         <div class="flowchart-container" style="margin-top: 8px;">
           <div class="flowchart-node dark">
-            <span data-i18n="cw_flow_node_video_gen">视频生成</span>
-            <div class="flowchart-tool">🎥 Seedance API</div>
+            <span data-i18n="tcw_flow_multi_model">多模型生成</span>
+            <div class="flowchart-tool">Seedance / Kling / Vidu / Grok</div>
           </div>
           <span class="flowchart-arrow dark">→</span>
           <div class="flowchart-node dark">
-            <span data-i18n="cw_flow_node_edit">剪辑+字幕</span>
-            <div class="flowchart-tool" data-i18n="t4b986f">✂️ 剪映</div>
+            <span data-i18n="tcw_flow_keyframe">首尾帧控制</span>
+            <div class="flowchart-tool" data-i18n="tcw_flow_keyframe_tool">续帧 / 1080p / 优化</div>
           </div>
           <span class="flowchart-arrow dark">→</span>
           <div class="flowchart-node dark">
-            <span data-i18n="cw_flow_node_output">成品</span>
-            <div class="flowchart-tool" data-i18n="tc4e074">✅ 发布</div>
+            <span data-i18n="tcw_flow_history">历史复用</span>
+            <div class="flowchart-tool" data-i18n="tcw_flow_history_tool">编辑 / 回看 / 再生成</div>
           </div>
         </div>
-        <div class="flowchart-explanation dark" data-i18n="cw_flow_explanation">
-          从小说文本到最终视频，每个环节都有对应的工具和自动化脚本支撑，形成可复用的生产流水线。
+        <div class="flowchart-explanation dark" data-i18n="tcw_flow_explanation_new">
+          当前版本已部署在个人子域名，通过登录访问保护个人 API 额度、生成记录与项目资产。流程重点从"单次生成"升级为"图片资产、视频生成、历史复用"的连续生产闭环。
+          <span style="display: block; margin-top: 10px; font-family: var(--font-en-title); color: var(--cw-secondary); letter-spacing: 0;">studio.hanyue-room.design</span>
         </div>
       </div>
     </div>
@@ -1194,14 +1195,14 @@
           <span class="en-label">VISUAL ASSET SYSTEM</span>
         </div>
         <h2 class="cn-title-md" data-i18n="t9ead92">角色与场景图生成</h2>
-        <p class="cn-body" data-i18n="te21995">这一阶段我用 ChatGPT Image 2 先生成角色图片和场景图片，再把这些图作为后续视频生成的视觉锚点。</p>
-        <p class="cn-body cw-strong-copy" data-i18n="cw_asset_system_desc">不是单张好看的概念图，而是为连续叙事服务的资产系统：角色要能跨镜头保持辨识度，场景要能反复调用，提示词要能沉淀成可复用模板。</p>
+        <p class="cn-body" data-i18n="tcw_asset_desc1">这一阶段接入 Seedream 4.6、Nano Banana、Midjourney、GPT Image 2 等图片模型，生成角色立绘、三视图、场景母图和视频参考帧。</p>
+        <p class="cn-body cw-strong-copy" data-i18n="tcw_asset_desc2">不是单张好看的概念图，而是为连续叙事服务的资产系统：生成图片可以直接进入角色库、场景库、服装库，也可以一键带到视频页作为参考。</p>
       </div>
       <div class="cw-asset-steps cw-asset-steps-wide">
-        <div class="cw-asset-step"><div class="cw-asset-step-num">01</div><div><div class="cw-asset-step-title" data-i18n="tc42f58">角色设定图</div><p data-i18n="tb7d2bd">固定五官、服装、年龄感和气质，作为后续镜头的统一参考。</p></div></div>
-        <div class="cw-asset-step"><div class="cw-asset-step-num">02</div><div><div class="cw-asset-step-title" data-i18n="t936a42">场景基准图</div><p data-i18n="t15fee6">为室内、街道、夜景等空间建立稳定的视觉锚点。</p></div></div>
-        <div class="cw-asset-step"><div class="cw-asset-step-num">03</div><div><div class="cw-asset-step-title" data-i18n="t63c50f">提示词资产化</div><p data-i18n="t9f80da">把角色、场景、镜头语言整理成可复用 Prompt，减少试错成本。</p></div></div>
-        <div class="cw-asset-step"><div class="cw-asset-step-num">04</div><div><div class="cw-asset-step-title" data-i18n="tb52968">进入视频生成</div><p data-i18n="t0adc26">将图像资产输入 Image-to-Video 流程，提升画面连续性。</p></div></div>
+        <div class="cw-asset-step"><div class="cw-asset-step-num">01</div><div><div class="cw-asset-step-title" data-i18n="tcw_asset_step1_title">角色三视图</div><p data-i18n="tcw_asset_step1_desc">固定五官、服装、年龄感和气质，作为后续镜头的统一参考。</p></div></div>
+        <div class="cw-asset-step"><div class="cw-asset-step-num">02</div><div><div class="cw-asset-step-title" data-i18n="tcw_asset_step2_title">场景母图</div><p data-i18n="tcw_asset_step2_desc">为室内、街道、夜景等空间建立稳定的视觉锚点，并支持换视角生成。</p></div></div>
+        <div class="cw-asset-step"><div class="cw-asset-step-num">03</div><div><div class="cw-asset-step-title" data-i18n="tcw_asset_step3_title">Prompt 模板</div><p data-i18n="tcw_asset_step3_desc">把风格、镜头语言、人物同场一致性整理成可选模板，减少重复写词。</p></div></div>
+        <div class="cw-asset-step"><div class="cw-asset-step-num">04</div><div><div class="cw-asset-step-title" data-i18n="tcw_asset_step4_title">资产联动</div><p data-i18n="tcw_asset_step4_desc">生成结果可加入资产库，或一键进入视频生成页作为首帧和参考图。</p></div></div>
       </div>
     </div>
     <div class="page-num">20</div>
@@ -1233,17 +1234,21 @@
   </section>
 
   <!-- ============================================================
-       P22 — AI 漫剧 · 自动化分镜生成 Automated Storyboard
+       P22 — AI 漫剧 · 自动化能力产品化 Automation to Product
        ============================================================ -->
   <section class="page page-cw-interior" id="p22">
     <div class="automation-layout">
       <div class="automation-copy">
-        <div class="section-label"><span class="accent-line-sm" style="background: var(--cw-primary);"></span><span class="en-label">AUTOMATION</span></div>
-        <h2 class="cn-title-md" data-i18n="td76f41">自动化分镜生成</h2>
-        <p class="cn-body" data-i18n="cw_auto_storyboard_desc">这一页展示的是我把剧本文本转成镜头单元的脚本流程：先识别剧情动作，再拆分镜头时长，最后输出可直接进入视频生成 API 的结构化分镜。</p>
-        <div class="automation-notes"><div><span>INPUT</span><span data-i18n="cw_auto_input">小说 / 剧本段落</span></div><div><span>PARSE</span><span data-i18n="cw_auto_parse">角色、场景、动作、情绪</span></div><div><span>OUTPUT</span><span data-i18n="cw_auto_output">镜头描述 + 时长 + 参考资产</span></div></div>
+        <div class="section-label"><span class="accent-line-sm" style="background: var(--cw-primary);"></span><span class="en-label">FROM SCRIPT TO TOOL</span></div>
+        <h2 class="cn-title-md" data-i18n="td76f41">把脚本流程封装成工作室</h2>
+        <p class="cn-body" data-i18n="cw_auto_storyboard_desc">早期版本用 Python 和 Claude Code 验证分镜拆解、Prompt 拼接和 API 调用逻辑。新版不再把能力停留在代码里，而是把这些步骤整理成可复用的工作室界面。</p>
+        <div class="automation-notes">
+          <div><span>SCRIPT</span><span data-i18n="cw_auto_input">剧本拆解、镜头字段、请求体生成</span></div>
+          <div><span>STUDIO</span><span data-i18n="cw_auto_parse">项目设置、参数选择、参考资产匹配</span></div>
+          <div><span>REVIEW</span><span data-i18n="cw_auto_output">生成结果、失败原因、重试状态统一归档</span></div>
+        </div>
       </div>
-      <div class="automation-image"><img class="portfolio-img wide-img" src="assets/images/comic/cw-vscode.png" alt="" /></div>
+      <div class="automation-image"><img class="portfolio-img wide-img" src="assets/images/comic/cw-flow-01-setup.jpg" alt="" style="object-fit: contain; background: #0B0B12;" /></div>
     </div>
     <div class="page-num">22</div>
   </section>
@@ -1252,14 +1257,56 @@
        P23 — AI 漫剧 · 漫剧工作室工具 Self-built Studio Tool
        ============================================================ -->
   <section class="page page-cw-interior" id="p23">
-    <div class="layout-a">
-      <div class="layout-text">
+    <div class="layout-d">
+      <div class="layout-top" style="flex: 0 0 auto; padding-bottom: 32px;">
         <div class="section-label"><span class="accent-line-sm" style="background: var(--cw-primary);"></span><span class="en-label">STUDIO TOOL</span></div>
-        <h2 class="cn-title-md" data-i18n="t953fc1">漫剧工作室 · 自研工具</h2>
-        <p class="cn-body" data-i18n="t859ee5">不只是在用 AI 生成视频，而是搭建了一个完整的生产工具。这个工具是接入 Seedance API 开发的，使用 Claude Code 辅助开发。</p>
-        <div class="xn-persona-traits" style="margin-top: 20px;"><div class="xn-trait-item" style="border-left-color: rgba(139,92,246,0.25);"><div class="xn-trait-label" style="color: var(--cw-primary);" data-i18n="tc79999">角色库</div><div class="xn-trait-text" style="color: #9090A0;" data-i18n="t4e2660">管理角色形象和音频</div></div><div class="xn-trait-item" style="border-left-color: rgba(34,211,238,0.25);"><div class="xn-trait-label" style="color: var(--cw-secondary);" data-i18n="tdb9eb6">服装库 & 场景库</div><div class="xn-trait-text" style="color: #9090A0;" data-i18n="t34ce9a">管理角色不同服装和背景环境</div></div><div class="xn-trait-item" style="border-left-color: rgba(245,158,11,0.25);"><div class="xn-trait-label" style="color: var(--cw-accent);" data-i18n="t044c3f">音频库 & 一键生成</div><div class="xn-trait-text" style="color: #9090A0;" data-i18n="tf4407b">管理配音和音效，输入描述即可生成视频</div></div></div>
+        <h2 class="cn-title-md" data-i18n="t953fc1" style="margin-bottom: 8px;">漫剧工作室 · 自研工具</h2>
+        <p class="cn-body cw-page-intro" data-i18n="tcw_studio_intro" style="max-width: 900px;">工作室把图片生成、资产沉淀、视频参考、历史记录整合到同一个界面里。生成结果可以直接加入资产库，也可以一键带到视频页继续作为参考。</p>
       </div>
-      <div class="layout-image"><div class="cw-screenshot-wrap"><img class="portfolio-img wide-img" src="assets/images/comic/cw-full-ui.png" alt="" /></div></div>
+      <div class="layout-bottom" style="align-items: center;">
+        <div style="display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; width: 100%;">
+          <div style="background: #17171F; border: 1px solid rgba(255,255,255,0.10); border-radius: 10px; overflow: hidden; box-shadow: 0 18px 44px rgba(0,0,0,0.28);">
+            <div style="height: 34px; display: flex; align-items: center; gap: 8px; padding: 0 12px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.035);">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #FF5F57;"></span>
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #FFBD2E;"></span>
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #28C840;"></span>
+              <span style="margin-left: auto; font-family: var(--font-en-title); font-size: 12px; font-weight: 700; color: var(--cw-secondary);">ASSET ROUTING</span>
+            </div>
+            <img class="portfolio-img" src="assets/images/comic/cw-flow-02-settings.jpg" alt="" style="display: block; width: 100%; height: auto; background: #0B0B12;" />
+            <div style="padding: 12px 14px 14px; font-family: var(--font-cn); font-size: 13px; line-height: 1.6; color: #9CA3AF;" data-i18n="tcw_studio_desc1">图片生成后可加入角色、场景、服装资产库，也可一键作为视频生成参考图。</div>
+          </div>
+          <div style="background: #17171F; border: 1px solid rgba(255,255,255,0.10); border-radius: 10px; overflow: hidden; box-shadow: 0 18px 44px rgba(0,0,0,0.28);">
+            <div style="height: 34px; display: flex; align-items: center; gap: 8px; padding: 0 12px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.035);">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #FF5F57;"></span>
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #FFBD2E;"></span>
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #28C840;"></span>
+              <span style="margin-left: auto; font-family: var(--font-en-title); font-size: 12px; font-weight: 700; color: var(--cw-primary);">IMAGE TEMPLATES</span>
+            </div>
+            <img class="portfolio-img" src="assets/images/comic/cw-image-generation-character.png" alt="" style="display: block; width: 100%; height: auto; background: #0B0B12;" />
+            <div style="padding: 12px 14px 14px; font-family: var(--font-cn); font-size: 13px; line-height: 1.6; color: #9CA3AF;" data-i18n="tcw_studio_desc2">内置角色三视图、场景母图、服装参考、分镜构图、人物同场景一致性、视频首帧等模板。</div>
+          </div>
+          <div style="background: #17171F; border: 1px solid rgba(255,255,255,0.10); border-radius: 10px; overflow: hidden; box-shadow: 0 18px 44px rgba(0,0,0,0.28);">
+            <div style="height: 34px; display: flex; align-items: center; gap: 8px; padding: 0 12px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.035);">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #FF5F57;"></span>
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #FFBD2E;"></span>
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #28C840;"></span>
+              <span style="margin-left: auto; font-family: var(--font-en-title); font-size: 12px; font-weight: 700; color: var(--cw-accent);">MULTI MODEL</span>
+            </div>
+            <img class="portfolio-img" src="assets/images/comic/cw-studio.png" alt="" style="display: block; width: 100%; height: auto; background: #0B0B12;" />
+            <div style="padding: 12px 14px 14px; font-family: var(--font-cn); font-size: 13px; line-height: 1.6; color: #9CA3AF;" data-i18n="tcw_studio_desc3">视频侧支持 Seedance、可灵、Vidu、Grok 等模型，按镜头类型选择更适合的生成路径。</div>
+          </div>
+          <div style="background: #17171F; border: 1px solid rgba(255,255,255,0.10); border-radius: 10px; overflow: hidden; box-shadow: 0 18px 44px rgba(0,0,0,0.28);">
+            <div style="height: 34px; display: flex; align-items: center; gap: 8px; padding: 0 12px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.035);">
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #FF5F57;"></span>
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #FFBD2E;"></span>
+              <span style="width: 8px; height: 8px; border-radius: 50%; background: #28C840;"></span>
+              <span style="margin-left: auto; font-family: var(--font-en-title); font-size: 12px; font-weight: 700; color: #A78BFA;">HISTORY EDIT</span>
+            </div>
+            <img class="portfolio-img" src="assets/images/comic/cw-history-records.png" alt="" style="display: block; width: 100%; height: auto; background: #0B0B12;" />
+            <div style="padding: 12px 14px 14px; font-family: var(--font-cn); font-size: 13px; line-height: 1.6; color: #9CA3AF;" data-i18n="tcw_studio_desc4">完整保留历史记录，支持一键编辑、复用参数、回看失败原因并重新生成。</div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="page-num">23</div>
   </section>
@@ -1269,8 +1316,8 @@
        ============================================================ -->
   <section class="page page-cw-interior" id="p24">
     <div class="layout-d">
-      <div class="layout-top"><div class="section-label"><span class="accent-line-sm" style="background: var(--cw-secondary);"></span><span class="en-label">VIDEO GENERATION</span></div><h2 class="cn-title-md" data-i18n="td5fcdc">视频生成流程</h2><p class="cn-body cw-page-intro" data-i18n="cw_video_gen_desc">我把漫剧生产拆成"可控资产 + 自动分镜 + 批量生成 + 人工复核"的流程。重点不是一次性生成炫技画面，而是让每一集都能稳定复用角色、场景和镜头规则，形成真正可以连续产出的短剧流水线。</p></div>
-      <div class="layout-bottom"><div class="video-step-cards video-step-cards-pro"><div class="video-step-card"><span class="video-step-num">1</span><div class="video-step-title" data-i18n="te3fa61">分镜拆解</div><p class="video-step-desc" data-i18n="t3c268b">Python 脚本读取剧本，按情节拆分为独立镜头单元，标记角色和场景。</p></div><div class="video-step-card"><span class="video-step-num">2</span><div class="video-step-title" data-i18n="ta9e436">参考图匹配</div><p class="video-step-desc" data-i18n="tbe6a7b">根据镜头需求，从角色库和场景库自动匹配对应的参考图。</p></div><div class="video-step-card"><span class="video-step-num">3</span><div class="video-step-title" data-i18n="t94f528">提示词构建</div><p class="video-step-desc" data-i18n="t9ec540">拼接角色描述、场景、景别、动作和情绪，形成可调用的 API 指令。</p></div><div class="video-step-card"><span class="video-step-num">4</span><div class="video-step-title" data-i18n="t801ad5">API 调用生成</div><p class="video-step-desc" data-i18n="tbc7a76">传入参考图和提示词，批量生成 4-15 秒视频片段。</p></div><div class="video-step-card"><span class="video-step-num">5</span><div class="video-step-title" data-i18n="t4fd0f9">质检与合成</div><p class="video-step-desc" data-i18n="t31f919">筛选可用镜头，统一字幕、节奏和音效，输出完整漫剧片段。</p></div></div></div>
+      <div class="layout-top"><div class="section-label"><span class="accent-line-sm" style="background: var(--cw-secondary);"></span><span class="en-label">VIDEO GENERATION</span></div><h2 class="cn-title-md" data-i18n="tcw_video_gen_title">多模型视频生成</h2><p class="cn-body cw-page-intro" data-i18n="tcw_video_gen_desc">视频生成不再依赖单一模型，而是按镜头需求选择不同模型。生成后系统会自动提取首尾帧，用户可以决定是否把它作为下一段视频的参考；720p 结果也可以直接进入 1080p 生成链路。</p></div>
+      <div class="layout-bottom"><div class="video-step-cards video-step-cards-pro"><div class="video-step-card"><span class="video-step-num">1</span><div class="video-step-title" data-i18n="tcw_video_step1_title">参考图进入视频页</div><p class="video-step-desc" data-i18n="tcw_video_step1_desc">从角色、场景、服装或图片生成结果中一键带入参考图，不需要手动下载再上传。</p></div><div class="video-step-card"><span class="video-step-num">2</span><div class="video-step-title" data-i18n="tcw_video_step2_title">多模型选择</div><p class="video-step-desc" data-i18n="tcw_video_step2_desc">接入 Seedance、可灵、Vidu、Grok 等视频模型，根据镜头运动、人物稳定性和风格需求选择。</p></div><div class="video-step-card"><span class="video-step-num">3</span><div class="video-step-title" data-i18n="tcw_video_step3_title">智能优化 Prompt</div><p class="video-step-desc" data-i18n="tcw_video_step3_desc">视频页提供提示词优化入口，把角色、场景、动作、镜头语言整理成更适合模型理解的描述。</p></div><div class="video-step-card"><span class="video-step-num">4</span><div class="video-step-title" data-i18n="tcw_video_step4_title">首尾帧续接</div><p class="video-step-desc" data-i18n="tcw_video_step4_desc">视频生成后自动提取首帧和尾帧，用户可选择是否作为下一镜头参考，增强连续镜头的稳定性。</p></div><div class="video-step-card"><span class="video-step-num">5</span><div class="video-step-title" data-i18n="tcw_video_step5_title">1080p 输出</div><p class="video-step-desc" data-i18n="tcw_video_step5_desc">针对 720p 结果增加直接生成 1080p 的代码路径，减少重复配置和二次整理成本。</p></div></div></div>
     </div>
     <div class="page-num">24</div>
   </section>
@@ -1280,8 +1327,8 @@
        ============================================================ -->
   <section class="page page-cw-interior" id="p25">
     <div class="layout-d">
-      <div class="layout-top"><div class="section-label"><span class="accent-line-sm" style="background: var(--cw-accent);"></span><span class="en-label">PROMPT & API</span></div><h2 class="cn-title-md" data-i18n="t07113d">Prompt / API 调用流程</h2><p class="cn-body cw-page-intro" data-i18n="cw_prompt_api_desc">这里的 Prompt 不是临时写一句描述，而是把故事理解、角色资产、场景资产和镜头语言编码成稳定参数。它决定了 AI 生成是否能从"随机好看"进入"可导演、可复盘、可批量生产"。</p></div>
-      <div class="layout-bottom"><div class="two-col"><div class="code-block" style="background: #1A1A24; padding: 30px;"><span class="code-comment" data-i18n="t554f3a">// Prompt 构建模板</span><br><br><span class="code-keyword" data-i18n="t9036c2">角色描述</span>：<br><span class="code-string" data-i18n="cw_prompt_character_example">"女主江妹，黑色长发，白色衬衫，蓝色牛仔裤…"</span><br><br><span class="code-keyword" data-i18n="t4c07b5">场景描述</span>：<br><span class="code-string" data-i18n="cw_prompt_scene_example">"工地背景，白天，远处有起重机…"</span><br><br><span class="code-keyword" data-i18n="t52114d">镜头指令</span>：<br><span class="code-string" data-i18n="cw_prompt_camera_example">"中景，转头看向顾决，表情惊讶…"</span><br><br><span class="code-keyword" data-i18n="te6081a">时长约束</span>：<br><span class="code-string" data-i18n="tc318d1">"4-8 秒，慢动作"</span></div><div class="api-flow-pro"><div><span>REQUEST</span><span data-i18n="cw_api_req">分镜 JSON → Prompt 模板 → 参考图 URL → Seedance 请求体</span></div><div><span>RETRY</span><span data-i18n="cw_api_retry">按镜头顺序调用 API，不合格镜头自动标记重试</span></div><div><span>ARCHIVE</span><span data-i18n="cw_api_archive">生成结果按剧集、角色、场景归档，方便后续复用</span></div></div></div></div>
+      <div class="layout-top"><div class="section-label"><span class="accent-line-sm" style="background: var(--cw-accent);"></span><span class="en-label">PROMPT & MODELS</span></div><h2 class="cn-title-md" data-i18n="tcw_prompt_title">图片生成与 Prompt 模板</h2><p class="cn-body cw-page-intro" data-i18n="tcw_prompt_desc">图片侧接入多种生成模型，覆盖角色设定、场景构建、风格探索和参考帧制作。Prompt 被拆成可选择的模板和风格规则，用户不用从空白描述开始。</p></div>
+      <div class="layout-bottom"><div class="two-col"><div style="background: #17171F; border: 1px solid rgba(255,255,255,0.10); border-radius: 10px; overflow: hidden; box-shadow: 0 18px 44px rgba(0,0,0,0.28);"><div style="height: 34px; display: flex; align-items: center; gap: 8px; padding: 0 12px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.035);"><span style="width: 8px; height: 8px; border-radius: 50%; background: #FF5F57;"></span><span style="width: 8px; height: 8px; border-radius: 50%; background: #FFBD2E;"></span><span style="width: 8px; height: 8px; border-radius: 50%; background: #28C840;"></span><span style="margin-left: auto; font-family: var(--font-en-title); font-size: 12px; font-weight: 700; color: var(--cw-accent);">IMAGE GENERATION</span></div><img class="portfolio-img" src="assets/images/comic/cw-image-generation-full.png" alt="" style="display: block; width: 100%; height: 520px; object-fit: cover; object-position: left top; background: #0B0B12;" /></div><div class="api-flow-pro"><div><span>IMAGE MODELS</span><div style="font-size: 15px; color: #FBBF24;">Seedream 4.6 / Nano Banana / Midjourney / GPT Image 2</div><div style="margin-top: 10px; font-size: 14px; color: #9CA3AF;" data-i18n="tcw_prompt_model_desc">按任务选择模型：角色设定、场景母图、风格探索和参考帧制作分开处理。</div></div><div><span>PROMPT TEMPLATES</span><div style="font-size: 15px; color: #FBBF24;" data-i18n="tcw_prompt_templates_list">角色三视图 / 场景母图 / 分镜构图 / 视频首帧</div><div style="margin-top: 10px; font-size: 14px; color: #9CA3AF;" data-i18n="tcw_prompt_template_desc">模板和风格 Prompt 预先沉淀，用户选择后系统自动组合资产、参考图和模型参数。</div></div><div><span>ASSET LOOP</span><div style="font-size: 15px; color: #FBBF24;" data-i18n="tcw_prompt_asset_loop">生成图片 → 加入资产库 → 视频页引用</div><div style="margin-top: 10px; font-size: 14px; color: #9CA3AF;" data-i18n="tcw_prompt_loop_desc">角色、场景、服装和首帧都能沉淀为可复用资产，减少每集重复搭建。</div></div></div></div></div>
     </div>
     <div class="page-num">25</div>
   </section>
@@ -1309,7 +1356,7 @@
        P28 — AI 漫剧 · 项目总结 Project Summary
        ============================================================ -->
   <section class="page page-cw-interior" id="p28">
-    <div class="layout-d"><div class="layout-top"><div class="section-label"><span class="accent-line-sm" style="background: var(--cw-primary);"></span><span class="en-label">PROJECT SUMMARY</span></div><h2 class="cn-title-md" data-i18n="t77bc1a">项目总结</h2></div><div class="layout-bottom" style="flex-direction: column; align-items: center; justify-content: center;"><p class="summary-highlight" data-i18n="cw_summary_highlight">AI 漫剧制作系统不是一个"生成视频的工具"，<br>而是一个<strong>从零搭建的生产系统</strong>。</p><p style="font-family: var(--font-cn); font-size: 17px; color: #808090; line-height: 1.9; max-width: 800px; text-align: center; margin-top: 32px;" data-i18n="cw_summary_desc">从角色一致性的 Image-to-Video 方案，到 Python 自动化分镜拆解，再到 Seedance API 的批量调用与重试机制，每个环节都经过反复踩坑和迭代。最终交付的不是单条视频，而是一套可复用、可扩展的漫剧生产流水线。</p><div style="display: flex; gap: 36px; margin-top: 48px;"><div style="text-align: center;"><div style="font-family: var(--font-en-title); font-size: 36px; font-weight: 700; color: var(--cw-secondary);">Image-to-Video</div><div style="font-family: var(--font-cn); font-size: 14px; color: #666; margin-top: 6px;" data-i18n="tba0713">角色一致性方案</div></div><div style="text-align: center;"><div style="font-family: var(--font-en-title); font-size: 36px; font-weight: 700; color: var(--cw-primary);">Python</div><div style="font-family: var(--font-cn); font-size: 14px; color: #666; margin-top: 6px;" data-i18n="tc3f8e5">自动化分镜引擎</div></div><div style="text-align: center;"><div style="font-family: var(--font-en-title); font-size: 36px; font-weight: 700; color: var(--cw-accent);">Seedance API</div><div style="font-family: var(--font-cn); font-size: 14px; color: #666; margin-top: 6px;" data-i18n="tda9cbd">视频生成核心</div></div></div></div></div>
+    <div class="layout-d"><div class="layout-top"><div class="section-label"><span class="accent-line-sm" style="background: var(--cw-primary);"></span><span class="en-label">PROJECT SUMMARY</span></div><h2 class="cn-title-md" data-i18n="t77bc1a">项目总结</h2></div><div class="layout-bottom" style="flex-direction: column; align-items: center; justify-content: center;"><p class="summary-highlight"><span data-i18n="tcw_summary_part1">AI 漫剧制作系统不是一个"生成视频的工具"，</span><br><span data-i18n="tcw_summary_part2">而是一个</span><strong data-i18n="tcw_summary_strong">可部署、可复用、可复盘的内容生产工作台</strong>。</p><p style="font-family: var(--font-cn); font-size: 17px; color: #808090; line-height: 1.9; max-width: 860px; text-align: center; margin-top: 32px;" data-i18n="tcw_summary_desc">从图片模板、资产库联动、多模型视频生成，到首尾帧续接、1080p 输出和历史记录编辑，每个环节都围绕连续生产而设计。最终交付的不是单条视频，而是一套能够保护个人 API、沉淀资产并复用经验的 AI 漫剧生产流水线。</p><div style="display: flex; gap: 36px; margin-top: 48px;"><div style="text-align: center;"><div style="font-family: var(--font-en-title); font-size: 36px; font-weight: 700; color: var(--cw-secondary);">Image Models</div><div style="font-family: var(--font-cn); font-size: 14px; color: #666; margin-top: 6px;" data-i18n="tcw_summary_stat1">角色 / 场景 / 首帧资产</div></div><div style="text-align: center;"><div style="font-family: var(--font-en-title); font-size: 36px; font-weight: 700; color: var(--cw-primary);">Asset Loop</div><div style="font-family: var(--font-cn); font-size: 14px; color: #666; margin-top: 6px;" data-i18n="tcw_summary_stat2">资产库与视频页联动</div></div><div style="text-align: center;"><div style="font-family: var(--font-en-title); font-size: 36px; font-weight: 700; color: var(--cw-accent);">Multi-Model</div><div style="font-family: var(--font-cn); font-size: 14px; color: #666; margin-top: 6px;">Seedance / Kling / Vidu / Grok</div></div></div></div></div>
     <div class="page-num">28</div>
   </section>
 
