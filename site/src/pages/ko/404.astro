@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getContent } from '../../content/i18n';
+
+const t = getContent('ko');
+---
+
+<BaseLayout title={`404 · ${t.metaTitle}`} langAttr="ko" description="페이지를 찾을 수 없습니다">
+  <main style="min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0A0A0B;color:#F4F4F2;font-family:sans-serif;gap:1.5rem;padding:2rem;text-align:center;">
+    <div style="font-family:Anton,sans-serif;font-size:clamp(4rem,15vw,12rem);line-height:0.9;text-transform:uppercase;">404</div>
+    <p style="font-size:1.25rem;max-width:20em;opacity:0.75;">페이지를 찾을 수 없습니다——제 작업을 보시겠어요?</p>
+    <a href="/ko/" style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.875rem;letter-spacing:0.12em;text-transform:uppercase;color:#0A0A0B;background:#F4F4F2;padding:1em 2em;text-decoration:none;">홈으로</a>
+    <div style="margin-top:2rem;display:flex;gap:1rem;">
+      <a href="/ko/work/xiaonuan/" style="color:#7C6CFF;text-decoration:none;">샤오누안</a>
+      <a href="/ko/work/comic-studio/" style="color:#37F4E4;text-decoration:none;">AI 만화극</a>
+    </div>
+  </main>
+</BaseLayout>

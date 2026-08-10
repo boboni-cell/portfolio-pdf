@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import WorkIndexLayout from '../../../components/WorkIndexLayout.astro';
+import { getContent } from '../../../content/i18n';
+
+const t = getContent('ko');
+---
+
+<BaseLayout title={`${t.work.title} · ${t.metaTitle}`} langAttr={t.langAttr} description={t.work.title} canonical="https://portfolio.hanyue-room.design/ko/work/" alternateHref="https://portfolio.hanyue-room.design/zh/work/" alternateLang="zh-CN">
+  <WorkIndexLayout locale="ko" t={t} />
+</BaseLayout>

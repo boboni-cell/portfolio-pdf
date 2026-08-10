@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CaseStudyLayout from '../../../components/CaseStudyLayout.astro';
+import { getContent } from '../../../content/i18n';
+import { getProjectDetail } from '../../../content/projects';
+
+const t = getContent('ko');
+const project = getProjectDetail('ai-infinite-canvas', 'ko');
+---
+
+<BaseLayout title={`${project.name} · ${t.metaTitle}`} langAttr={t.langAttr} description={project.subtitle} canonical="https://portfolio.hanyue-room.design/ko/work/ai-infinite-canvas/" alternateHref="https://portfolio.hanyue-room.design/zh/work/ai-infinite-canvas/" alternateLang="zh-CN">
+  <CaseStudyLayout project={project} nav={t.nav} locale="ko" />
+</BaseLayout>

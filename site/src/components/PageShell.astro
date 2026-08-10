@@ -1,0 +1,132 @@
+---
+import type { Locale, SiteContent } from '../content/i18n';
+import Header from './Header.astro';
+
+interface Props {
+  locale: Locale;
+  t: SiteContent;
+  currentPath: string;
+  pageTitle: string;
+  pageEn: string;
+}
+
+const { locale, t, currentPath, pageTitle, pageEn } = Astro.props;
+---
+
+<Header locale={locale} nav={t.nav} currentPath={currentPath} />
+
+<main class="ps-root">
+  <div class="ps-hero">
+    <div class="sys ps-label">{pageEn}</div>
+    <h1 class="ps-title">{pageTitle}</h1>
+  </div>
+  <div class="ps-body">
+    <slot />
+  </div>
+</main>
+
+<style>
+  .ps-root {
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    min-height: 100svh;
+  }
+
+  .ps-hero {
+    padding: calc(var(--space-5) + 3.5rem) var(--pad) var(--space-4);
+  }
+
+  .ps-label {
+    opacity: 0.5;
+  }
+
+  .ps-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    margin-top: var(--space-2);
+    max-width: 14em;
+  }
+
+  .ps-body {
+    padding: 0 var(--pad) var(--space-6);
+  }
+
+  @media (max-width: 720px) {
+    .ps-hero {
+      padding-top: calc(var(--space-5) + 2.5rem);
+    }
+  }
+</style>
+
+<script>
+  import { motionDisabled, registerMotion, addToLoop, startLoop } from '../scripts/motion/motionManager';
+  import { initCustomCursor } from '../scripts/motion/customCursor';
+  import { splitToChars } from '../scripts/motion/kineticText';
+
+  const disabled = motionDisabled();
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (!disabled) {
+    const charEffects: HTMLElement[] = [];
+
+    // Contact: email wave
+    document.querySelectorAll<HTMLElement>('.seg-contact-mail span:first-child').forEach(el => {
+      splitToChars(el).forEach(c => charEffects.push(c));
+    });
+
+    // About: statement wave
+    const stmt = document.querySelector<HTMLElement>('.seg-about-statement');
+    if (stmt) splitToChars(stmt).forEach(c => charEffects.push(c));
+
+    if (charEffects.length > 0) {
+      let px = -9999, py = -9999;
+      document.addEventListener('pointermove', (e) => { px = e.clientX; py = e.clientY; }, { passive: true });
+
+      const update = () => {
+        for (const el of charEffects) {
+          const r = el.getBoundingClientRect();
+          const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+          const dx = px - cx, dy = py - cy;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 180) {
+            const s = (1 - dist / 180), s2 = s * s;
+            const angle = Math.atan2(dy, dx);
+            if (el.closest('.seg-contact-mail')) {
+              el.style.transform = `translateY(${Math.sin(angle) * 8 * s2}px)`;
+            } else {
+              el.style.transform = `translate(${Math.cos(angle) * 5 * s2}px, ${Math.sin(angle) * 4 * s2}px)`;
+            }
+          } else { el.style.transform = 'none'; }
+        }
+      };
+      addToLoop(update);
+      startLoop();
+    }
+
+    registerMotion('cursor', { init: initCustomCursor, destroy: () => {} });
+  }
+
+  // Scroll reveal
+  if (!reduceMotion) {
+    const revealEls = document.querySelectorAll<HTMLElement>('[data-reveal]');
+    if (revealEls.length > 0) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      revealEls.forEach((el) => observer.observe(el));
+    }
+  } else {
+    document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
+      el.style.opacity = '1'; el.style.transform = 'none';
+    });
+  }
+</script>

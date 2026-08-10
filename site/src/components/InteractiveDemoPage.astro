@@ -1,0 +1,197 @@
+---
+interface Props {
+  demoUrl: string;
+  backHref: string;
+  backLabel: string;
+  iframeTitle: string;
+  mobileHint: string;
+}
+
+const { demoUrl, backHref, backLabel, iframeTitle, mobileHint } = Astro.props;
+---
+
+<main class="idp-root">
+  <!-- Loading overlay -->
+  <div class="idp-loader" id="idp-loader">
+    <div class="idp-loader-inner">
+      <div class="idp-loader-text sys">LOADING INTERACTIVE DEMO</div>
+      <div class="idp-loader-bar"><div class="idp-loader-bar-fill"></div></div>
+    </div>
+  </div>
+
+  <!-- Full-screen iframe -->
+  <iframe
+    class="idp-frame"
+    id="idp-frame"
+    src={demoUrl}
+    title={iframeTitle}
+    loading="eager"
+    sandbox="allow-scripts allow-same-origin allow-forms allow-downloads"
+    referrerpolicy="strict-origin-when-cross-origin"
+  ></iframe>
+
+  <!-- Floating back button -->
+  <a class="idp-back" href={backHref}>
+    <span aria-hidden="true">←</span> {backLabel}
+  </a>
+
+  <!-- Mobile hint -->
+  <div class="idp-mobile-hint">{mobileHint}</div>
+
+  <!-- Fallback: external link on load failure -->
+  <div class="idp-fallback" id="idp-fallback" hidden>
+    <p>无法加载？</p>
+    <a href={demoUrl} target="_blank" rel="noopener noreferrer">在新窗口打开 Demo ↗</a>
+  </div>
+</main>
+
+<style>
+  .idp-root {
+    position: fixed; inset: 0;
+    background: #0A0A0B;
+    overflow: hidden;
+  }
+
+  /* ---- Loader ---- */
+  .idp-loader {
+    position: absolute; inset: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: center;
+    background: #0A0A0B;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+  .idp-loader.done {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .idp-loader-inner {
+    display: flex; flex-direction: column; align-items: center; gap: 1.5rem;
+  }
+
+  .idp-loader-text {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: 0.14em;
+    color: rgba(244,244,242,0.6);
+  }
+
+  .idp-loader-bar {
+    width: 200px; height: 2px;
+    background: rgba(244,244,242,0.12);
+    overflow: hidden;
+  }
+
+  .idp-loader-bar-fill {
+    width: 40%; height: 100%;
+    background: var(--paper);
+    animation: idp-bar 1.2s ease-in-out infinite;
+  }
+
+  @keyframes idp-bar {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(350%); }
+  }
+
+  /* ---- Iframe ---- */
+  .idp-frame {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    border: none;
+    background: #0A0A0B;
+  }
+
+  /* ---- Back button ---- */
+  .idp-back {
+    position: fixed; top: 1rem; left: 1rem; z-index: 20;
+    display: inline-flex; align-items: center; gap: 0.4em;
+    padding: 0.5em 0.9em;
+    background: rgba(10,10,11,0.85);
+    color: var(--paper);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    text-decoration: none;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(244,244,242,0.15);
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .idp-back:hover {
+    background: rgba(244,244,242,0.12);
+    border-color: rgba(244,244,242,0.35);
+  }
+  .idp-back:focus-visible {
+    outline: 2px solid var(--paper); outline-offset: 2px;
+  }
+
+  /* ---- Mobile hint ---- */
+  .idp-mobile-hint {
+    position: fixed; bottom: 1rem; left: 50%; transform: translateX(-50%);
+    z-index: 20;
+    padding: 0.5em 1em;
+    background: rgba(10,10,11,0.85);
+    color: rgba(244,244,242,0.6);
+    font-family: var(--font-cn);
+    font-size: var(--text-xs);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(244,244,242,0.1);
+    text-align: center;
+    max-width: 90vw;
+  }
+
+  @media (min-width: 1024px) {
+    .idp-mobile-hint { display: none; }
+  }
+
+  /* ---- Fallback ---- */
+  .idp-fallback {
+    position: fixed; inset: 0; z-index: 30;
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; gap: 1rem;
+    background: #0A0A0B;
+    color: var(--paper);
+  }
+  .idp-fallback a {
+    color: var(--c-hero);
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .idp-loader-bar-fill { animation: none; width: 100%; }
+  }
+</style>
+
+<script>
+  const frame = document.getElementById('idp-frame') as HTMLIFrameElement;
+  const loader = document.getElementById('idp-loader');
+  const fallback = document.getElementById('idp-fallback');
+
+  if (frame && loader) {
+    let timedOut = false;
+    const timeout = setTimeout(() => {
+      timedOut = true;
+      loader.classList.add('done');
+      if (fallback) fallback.hidden = false;
+    }, 12000);
+
+    frame.addEventListener('load', () => {
+      if (!timedOut) {
+        clearTimeout(timeout);
+        setTimeout(() => loader.classList.add('done'), 400);
+      }
+    });
+
+    frame.addEventListener('error', () => {
+      clearTimeout(timeout);
+      loader.classList.add('done');
+      if (fallback) fallback.hidden = false;
+    });
+  }
+</script>

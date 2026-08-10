@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import InteractiveDemoPage from '../../../../components/InteractiveDemoPage.astro';
+
+const demoUrl = 'https://image.hanyue-room.design/demo';
+---
+
+<BaseLayout title="AI 无限画布 · 实时 Demo" langAttr="zh-CN" description="在线体验 AI 无限画布 — 批量图片生成管理工具">
+  <InteractiveDemoPage
+    demoUrl={demoUrl}
+    backHref="/zh/work/ai-infinite-canvas/"
+    backLabel="返回项目案例"
+    iframeTitle="AI 无限画布 — 实时 Demo"
+    mobileHint="无限画布建议使用桌面端体验"
+  />
+</BaseLayout>

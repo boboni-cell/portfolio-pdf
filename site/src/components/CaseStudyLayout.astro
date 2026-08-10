@@ -1,0 +1,1210 @@
+---
+import type { ProjectDetail } from '../content/projects';
+import type { Locale, SiteContent } from '../content/i18n';
+import Header from './Header.astro';
+import CaseMediaStage from './CaseMediaStage.astro';
+import FullscreenViewer from './FullscreenViewer.astro';
+
+interface Props { project: ProjectDetail; nav: SiteContent['nav']; locale: Locale; }
+
+const { project, nav, locale } = Astro.props;
+
+const transitionLabels: Record<string, string> = {
+  'xiaonuan': 'XIAONUAN',
+  'comic-studio': 'COMIC STUDIO',
+  'ai-infinite-canvas': 'INFINITE CANVAS',
+  'milk-ribbon': 'MILK & RIBBON',
+  'commercial-video': 'MOTION',
+};
+const nextTransitionLabel = transitionLabels[project.nextProject.slug] || 'NEXT';
+
+// Build section nav: id + title for each section that has one
+const sectionNav = project.sections.filter(s => s.title).map(s => ({ id: s.id, title: s.title }));
+
+// Helper: build media images array from a section
+const mediaSrcsets: Record<string, string> = {
+  '/media/ai-canvas-1200.webp': '/media/ai-canvas-800.webp 800w, /media/ai-canvas-1200.webp 1200w, /media/ai-canvas-1254.webp 1254w',
+  '/media/canvas2-2426.webp': '/media/canvas2-800.webp 800w, /media/canvas2-1200.webp 1200w, /media/canvas2-2426.webp 2426w',
+  '/media/canvas4-1478.webp': '/media/canvas4-800.webp 800w, /media/canvas4-1200.webp 1200w, /media/canvas4-1478.webp 1478w',
+  '/media/canvas6-1508.webp': '/media/canvas6-800.webp 800w, /media/canvas6-1200.webp 1200w, /media/canvas6-1508.webp 1508w',
+  '/media/canvas7-1480.webp': '/media/canvas7-800.webp 800w, /media/canvas7-1200.webp 1200w, /media/canvas7-1480.webp 1480w',
+};
+
+function buildMediaImages(s: typeof project.sections[0]) {
+  const imgs: Array<{ src: string; alt: string; caption: string; srcset?: string; sizes: string }> = [];
+  const pics = [{ src: s.image, alt: s.imageAlt || '', caption: s.imageCaption || '' }, { src: s.image2, alt: s.image2Alt || '', caption: s.image2Caption || '' }, { src: s.image3, alt: s.image3Alt || '', caption: s.image3Caption || '' }];
+  for (const p of pics) {
+    if (p.src) imgs.push({
+      src: p.src,
+      alt: p.alt,
+      caption: p.caption,
+      srcset: mediaSrcsets[p.src],
+      sizes: '(min-width: 1280px) 1120px, (min-width: 721px) calc(100vw - 10rem), calc(100vw - 2rem)',
+    });
+  }
+  return imgs;
+}
+---
+
+<Header locale={locale} nav={nav} currentPath={`/${locale}/work/${project.slug}/`} />
+
+<main class:list={['cs-root', { 'cs-phone-project': project.mediaPresentation === 'phone', 'cs-comic-project': project.slug === 'comic-studio' }]} id="cs-root">
+
+  <!-- Sticky section sidebar -->
+  <nav class="cs-sidenav" aria-label="Section navigation">
+    <ul>
+      {sectionNav.map((sn) => (
+        <li><a href={`#${sn.id}`} data-section={sn.id} class="sys">{sn.title}</a></li>
+      ))}
+    </ul>
+  </nav>
+
+  <!-- Top navigation bar -->
+  <nav class="cs-topnav">
+    <a class="cs-topnav-back" href={`/${locale}/work/`} data-transition-label="WORKS">
+      <span aria-hidden="true">←</span> <span class="cs-topnav-label-full">{locale === 'zh' ? '精选作品' : '프로젝트'}</span><span class="cs-topnav-label-mob">{locale === 'zh' ? '作品' : '작품'}</span>
+    </a>
+    <span class="cs-topnav-current sys">
+      <span class="cs-topnav-label-full">{project.num} — {project.name}</span>
+      <span class="cs-topnav-label-mob">{project.num}</span>
+    </span>
+    <a class="cs-topnav-next" href={`/${locale}/work/${project.nextProject.slug}/`} data-transition-label={nextTransitionLabel}>
+      <span class="cs-topnav-label-full">{project.nextProject.name} <span aria-hidden="true">→</span></span>
+      <span class="cs-topnav-label-mob">{locale === 'zh' ? '下一项目' : '다음'} <span aria-hidden="true">→</span></span>
+    </a>
+  </nav>
+
+  <!-- Project Hero -->
+  <section class="cs-hero" id="top">
+    <div class="cs-hero-inner">
+      <div class="sys cs-hero-meta">Project {project.num} — {project.meta}</div>
+      <h1 class="cs-hero-name" id="cs-hero-name">{project.name}</h1>
+      <div class="sys cs-hero-name-en">{project.nameEn}</div>
+      <p class="cs-hero-sub">{project.subtitle}</p>
+      <ul class="cs-hero-tags">
+        {project.tags.map((tag) => <li>{tag}</li>)}
+      </ul>
+
+      {project.liveDemo && (
+        <div class="cs-demo-actions">
+          {project.slug === 'ai-infinite-canvas' && (
+            <a class="cs-demo-cta" href={`/${locale}/work/${project.slug}/demo/`}>
+              <span class="cs-demo-label">
+                <span>{locale === 'zh' ? project.liveDemo.labelZh : project.liveDemo.labelKo}</span>
+                <span class="cs-demo-arrow" aria-hidden="true">↗</span>
+              </span>
+              <span class="cs-demo-sub sys">INTERACTIVE PORTFOLIO DEMO</span>
+            </a>
+          )}
+          <a class="cs-demo-cta" href={project.liveDemo.url} target="_blank" rel="noreferrer">
+            <span class="cs-demo-label">
+              <span>{locale === 'zh' ? (project.liveDemo.productLabelZh || project.liveDemo.labelZh) : (project.liveDemo.productLabelKo || project.liveDemo.labelKo)}</span>
+              <span class="cs-demo-arrow" aria-hidden="true">↗</span>
+            </span>
+            <span class="cs-demo-sub sys">LIVE PRODUCT</span>
+          </a>
+          {project.liveDemo.inviteCodes && project.liveDemo.inviteCodes.length > 0 && (
+            <div class="cs-invite">
+              <span class="cs-invite-note sys">{locale === 'zh' ? project.liveDemo.inviteNoteZh : project.liveDemo.inviteNoteKo}</span>
+              <div class="cs-invite-codes">
+                {project.liveDemo.inviteCodes.map((code) => (
+                  <button class="cs-invite-code sys" type="button" data-code={code} aria-label={`${locale === 'zh' ? '复制邀请码' : '초대 코드 복사'}: ${code}`}>
+                    {code}<span class="cs-invite-copy-icon" aria-hidden="true">⎘</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Sections -->
+  {project.sections.map((s, si) => {
+    const hasCards = s.cards && s.cards.length > 0;
+    const hasItems = s.items && s.items.length > 0;
+    const hasFlow = s.flow && s.flow.length > 0;
+    const isAlt = si % 2 === 1;
+
+    return (
+      <section class:list={['cs-section', { 'cs-bg-alt': isAlt }]} id={s.id} data-reveal>
+
+        {/* Layout A: simple title + body */}
+        {!hasCards && !hasItems && !hasFlow && (
+          <div class:list={['cs-section-inner', 'cs-layout-a', { 'cs-section-inner-media': Boolean(s.mediaMode) }]}>
+            <div class="sys cs-s-label">{s.label}</div>
+            <h2 class="cs-s-title">{s.title}</h2>
+            {s.body && <p class="cs-s-body">{s.body}</p>}
+            {s.highlight && (
+              <div class="cs-highlight">
+                {s.highlightLabel && <span class="sys cs-hl-label">{s.highlightLabel}</span>}
+                <p>{s.highlight}</p>
+              </div>
+            )}
+            {s.mediaMode && s.image ? (
+              <CaseMediaStage mode={s.mediaMode} images={buildMediaImages(s)} annotations={s.annotations} tabLabels={locale === 'zh' ? s.tabLabelsZh : s.tabLabelsKo} locale={locale} sectionId={s.id} />
+            ) : (s.image || s.image2) && (
+              <div class:list={['cs-fig-grid', { 'cs-fig-grid-4': s.image4 }]}>
+                {s.image && (<figure class="cs-section-figure"><img src={s.image} alt={s.imageAlt || ''} loading="lazy" decoding="async" /></figure>)}
+                {s.image2 && (<figure class="cs-section-figure"><img src={s.image2} alt={s.image2Alt || ''} loading="lazy" decoding="async" /></figure>)}
+                {s.image3 && (<figure class="cs-section-figure"><img src={s.image3} alt={s.image3Alt || ''} loading="lazy" decoding="async" /></figure>)}
+                {s.image4 && (<figure class="cs-section-figure"><img src={s.image4} alt={s.image4Alt || ''} loading="lazy" decoding="async" /></figure>)}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Layout B: two-column — title left, items right */}
+        {hasItems && !hasFlow && !hasCards && (
+          <div class:list={['cs-section-inner', 'cs-layout-b', { 'cs-section-inner-media': Boolean(s.mediaMode) }]}>
+            <div class="cs-lb-left">
+              <div class="sys cs-s-label">{s.label}</div>
+              <h2 class="cs-s-title">{s.title}</h2>
+              {s.body && <p class="cs-s-body">{s.body}</p>}
+            </div>
+            <div class="cs-lb-right">
+              {s.items!.map((item) => (
+                <div class="cs-item">
+                  {item.label && <div class="cs-item-label">{item.label}</div>}
+                  {item.title && <h3 class="cs-item-title">{item.title}</h3>}
+                  <p class="cs-item-body">{item.body}</p>
+                  {item.image && (
+                    <figure class="cs-item-phone">
+                      <img src={item.image} alt={item.imageAlt || ''} loading="lazy" decoding="async" />
+                    </figure>
+                  )}
+                </div>
+              ))}
+              {s.highlight && (
+                <div class="cs-highlight">
+                  {s.highlightLabel && <span class="sys cs-hl-label">{s.highlightLabel}</span>}
+                  <p>{s.highlight}</p>
+                </div>
+              )}
+            </div>
+            {s.mediaMode && s.image ? (
+              <CaseMediaStage mode={s.mediaMode} images={buildMediaImages(s)} annotations={s.annotations} tabLabels={locale === 'zh' ? s.tabLabelsZh : s.tabLabelsKo} locale={locale} sectionId={s.id} />
+            ) : (s.image || s.image2) && (
+              <div class:list={['cs-fig-grid', { 'cs-fig-grid-4': s.image4 }]}>
+                {s.image && (<figure class="cs-section-figure"><img src={s.image} alt={s.imageAlt || ''} loading="lazy" decoding="async" /></figure>)}
+                {s.image2 && (<figure class="cs-section-figure"><img src={s.image2} alt={s.image2Alt || ''} loading="lazy" decoding="async" /></figure>)}
+                {s.image3 && (<figure class="cs-section-figure"><img src={s.image3} alt={s.image3Alt || ''} loading="lazy" decoding="async" /></figure>)}
+                {s.image4 && (<figure class="cs-section-figure"><img src={s.image4} alt={s.image4Alt || ''} loading="lazy" decoding="async" /></figure>)}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Layout C: title + card grid + flow */}
+        {hasCards && !hasItems && (
+          <div class:list={['cs-section-inner', 'cs-layout-c', { 'cs-section-inner-media': Boolean(s.mediaMode) }]}>
+            <div class="sys cs-s-label">{s.label}</div>
+            <h2 class="cs-s-title">{s.title}</h2>
+            {s.body && <p class="cs-s-body">{s.body}</p>}
+            <div class="cs-cards">
+              {s.cards!.map((card) => (
+                <div class="cs-card">
+                  <span class="sys cs-card-num">{card.num}</span>
+                  <strong>{card.title}</strong>
+                  <p>{card.body}</p>
+                </div>
+              ))}
+            </div>
+            {s.flow && (
+              <div class="cs-flow">
+                {s.flowLabel && <div class="cs-flow-label">{s.flowLabel}</div>}
+                <div class="cs-flow-row">
+                  {s.flow.map((step, i) => (
+                    <span class="cs-flow-step"><span class="cs-flow-n">{i + 1}</span>{step}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {s.highlight && (
+              <div class="cs-highlight">
+                {s.highlightLabel && <span class="sys cs-hl-label">{s.highlightLabel}</span>}
+                <p>{s.highlight}</p>
+              </div>
+            )}
+            {s.mediaMode && s.image ? (
+              <CaseMediaStage mode={s.mediaMode} images={buildMediaImages(s)} annotations={s.annotations} tabLabels={locale === 'zh' ? s.tabLabelsZh : s.tabLabelsKo} locale={locale} sectionId={s.id} />
+            ) : (s.image || s.image2) && (
+              <div class:list={['cs-fig-grid', { 'cs-fig-grid-4': s.image4 }]}>
+                {s.image && (<figure class="cs-section-figure"><img src={s.image} alt={s.imageAlt || ''} loading="lazy" decoding="async" /></figure>)}
+                {s.image2 && (<figure class="cs-section-figure"><img src={s.image2} alt={s.image2Alt || ''} loading="lazy" decoding="async" /></figure>)}
+                {s.image3 && (<figure class="cs-section-figure"><img src={s.image3} alt={s.image3Alt || ''} loading="lazy" decoding="async" /></figure>)}
+                {s.image4 && (<figure class="cs-section-figure"><img src={s.image4} alt={s.image4Alt || ''} loading="lazy" decoding="async" /></figure>)}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Layout D: items + flow + cards (complex) */}
+        {hasItems && (hasFlow || hasCards) && (
+          <div class:list={['cs-section-inner', 'cs-layout-d', { 'cs-section-inner-media': Boolean(s.mediaMode) }]}>
+            <div class="sys cs-s-label">{s.label}</div>
+            <h2 class="cs-s-title">{s.title}</h2>
+            {s.body && <p class="cs-s-body">{s.body}</p>}
+            <div class="cs-items cs-items-wide">
+              {s.items!.map((item) => (
+                <div class="cs-item">
+                  {item.label && <div class="cs-item-label">{item.label}</div>}
+                  {item.title && <h3 class="cs-item-title">{item.title}</h3>}
+                  <p class="cs-item-body">{item.body}</p>
+                  {item.image && (
+                    <figure class="cs-item-phone">
+                      <img src={item.image} alt={item.imageAlt || ''} loading="lazy" decoding="async" />
+                    </figure>
+                  )}
+                </div>
+              ))}
+            </div>
+            {s.flow && (
+              <div class="cs-flow">
+                {s.flowLabel && <div class="cs-flow-label">{s.flowLabel}</div>}
+                <div class="cs-flow-row">
+                  {s.flow.map((step, i) => (
+                    <span class="cs-flow-step"><span class="cs-flow-n">{i + 1}</span>{step}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {s.cards && (
+              <div class="cs-cards">
+                {s.cards.map((card) => (
+                  <div class="cs-card">
+                    <span class="sys cs-card-num">{card.num}</span>
+                    <strong>{card.title}</strong>
+                    <p>{card.body}</p>
+                  </div>
+                ))}
+              </div>
+            )}
+            {s.highlight && (
+              <div class="cs-highlight">
+                {s.highlightLabel && <span class="sys cs-hl-label">{s.highlightLabel}</span>}
+                <p>{s.highlight}</p>
+              </div>
+            )}
+            {s.mediaMode && s.image ? (
+              <CaseMediaStage mode={s.mediaMode} images={buildMediaImages(s)} annotations={s.annotations} tabLabels={locale === 'zh' ? s.tabLabelsZh : s.tabLabelsKo} locale={locale} sectionId={s.id} />
+            ) : (s.image || s.image2) && (
+              <div class:list={['cs-fig-grid', { 'cs-fig-grid-4': s.image4 }]}>
+                {s.image && (<figure class="cs-section-figure"><img src={s.image} alt={s.imageAlt || ''} loading="lazy" decoding="async" /></figure>)}
+                {s.image2 && (<figure class="cs-section-figure"><img src={s.image2} alt={s.image2Alt || ''} loading="lazy" decoding="async" /></figure>)}
+                {s.image3 && (<figure class="cs-section-figure"><img src={s.image3} alt={s.image3Alt || ''} loading="lazy" decoding="async" /></figure>)}
+                {s.image4 && (<figure class="cs-section-figure"><img src={s.image4} alt={s.image4Alt || ''} loading="lazy" decoding="async" /></figure>)}
+              </div>
+            )}
+          </div>
+        )}
+
+        {s.video && (
+          <div class="cs-video-grid">
+            <figure class="cs-video-stage">
+              <video src={s.video} poster={s.videoPoster || s.image || undefined} controls playsinline preload="metadata" />
+              {s.videoLabel && <figcaption class="sys cs-video-caption">{s.videoLabel}</figcaption>}
+            </figure>
+            {s.video2 && (
+              <figure class="cs-video-stage">
+                <video src={s.video2} poster={s.video2Poster || undefined} controls playsinline preload="metadata" />
+                {s.video2Label && <figcaption class="sys cs-video-caption">{s.video2Label}</figcaption>}
+              </figure>
+            )}
+          </div>
+        )}
+      </section>
+    );
+  })}
+
+  <!-- Next Project -->
+  <nav class="cs-next">
+    <a href={`/${locale}/work/${project.nextProject.slug}/`} class="cs-next-link" data-transition-label={nextTransitionLabel}>
+      <span class="sys cs-next-label">{locale === 'zh' ? '下一个项目' : '다음 프로젝트'}</span>
+      <span class="cs-next-name" id="cs-next-name">{project.nextProject.name} →</span>
+    </a>
+  </nav>
+
+  <FullscreenViewer locale={locale} />
+</main>
+
+<style>
+  .cs-root {
+    background: var(--paper); color: var(--ink);
+    position: relative;
+  }
+
+  /* ---------- Sticky section nav ---------- */
+  .cs-sidenav {
+    position: fixed; right: var(--pad); top: 50%; transform: translateY(-50%);
+    z-index: 80; display: none;
+  }
+
+  @media (min-width: 1540px) {
+    .cs-sidenav { display: block; }
+  }
+
+  .cs-sidenav ul { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+
+  .cs-sidenav a {
+    display: block; font-size: var(--text-xs); opacity: 0.35;
+    color: var(--ink); text-decoration: none; padding: 2px 0;
+    transition: opacity 0.25s ease; max-width: 180px; text-align: right; line-height: 1.3;
+  }
+
+  .cs-sidenav a:hover,
+  .cs-sidenav a.active { opacity: 1; }
+
+  /* ---------- Top nav ---------- */
+  .cs-topnav {
+    display: flex; align-items: center; justify-content: space-between; gap: var(--space-2);
+    padding: calc(var(--space-5) + 3rem) var(--pad) 0;
+    font-size: var(--text-sm);
+  }
+
+  .cs-topnav-back, .cs-topnav-next { color: var(--c-hero); text-decoration: none; transition: opacity 0.2s ease; white-space: nowrap; }
+  .cs-topnav-back:hover, .cs-topnav-next:hover { opacity: 0.6; }
+  .cs-topnav-current { opacity: 0.45; text-align: center; }
+  .cs-topnav-label-mob { display: none; }
+
+  /* ---------- Hero ---------- */
+  .cs-hero { padding: var(--space-5) var(--pad) var(--space-4); }
+  .cs-hero-inner { max-width: 880px; }
+  .cs-hero-meta { opacity: 0.45; }
+  .cs-hero-name {
+    font-family: var(--font-display); font-size: clamp(2.2rem, 8vw, 7rem);
+    line-height: 0.95; text-transform: uppercase; margin-top: var(--space-2); color: var(--c-hero);
+    white-space: nowrap;
+  }
+  .cs-hero-name-en { margin-top: var(--space-1); opacity: 0.5; }
+  .cs-hero-sub { font-size: var(--text-lg); font-weight: 500; margin-top: var(--space-3); max-width: 28em; line-height: 1.6; color: rgba(20,19,23,0.7); }
+  .cs-hero-tags { display: flex; flex-wrap: wrap; gap: 0.4em 0.8em; margin-top: var(--space-3); font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.06em; }
+  .cs-hero-tags li { border: 1px solid rgba(20,19,23,0.2); padding: 0.3em 0.7em; }
+
+  /* ---- Demo CTA ---- */
+  .cs-demo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: var(--space-4);
+  }
+
+  .cs-demo-cta {
+    display: inline-flex; flex-direction: column; gap: 4px;
+    padding: 1rem 1.6rem;
+    background: var(--c-hero);
+    color: var(--paper);
+    text-decoration: none;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+  }
+  .cs-demo-cta:hover {
+    background: var(--paper);
+    color: var(--c-hero);
+    outline: 1.5px solid var(--c-hero);
+  }
+  .cs-demo-cta:focus-visible {
+    outline: 2px solid var(--c-hero); outline-offset: 3px;
+    background: var(--paper); color: var(--c-hero);
+  }
+
+  .cs-demo-cta-secondary {
+    background: transparent;
+    color: var(--c-hero);
+    outline: 1.5px solid var(--c-hero);
+  }
+
+  .cs-demo-cta-secondary:hover,
+  .cs-demo-cta-secondary:focus-visible {
+    background: var(--c-hero);
+    color: var(--paper);
+  }
+
+  .cs-demo-label {
+    display: inline-flex; align-items: center; gap: var(--space-2);
+    font-family: var(--font-display);
+    font-size: clamp(1.2rem, 2.4vw, 1.8rem);
+    text-transform: uppercase; letter-spacing: 0.03em; line-height: 1;
+  }
+
+  .cs-demo-arrow {
+    display: inline-block;
+    transition: transform 0.25s ease;
+  }
+  .cs-demo-cta:hover .cs-demo-arrow {
+    transform: translate(4px, -4px);
+  }
+
+  .cs-demo-sub {
+    font-size: 0.65rem; letter-spacing: 0.14em; opacity: 0.7;
+  }
+
+  .cs-invite {
+    margin-top: var(--space-3);
+    display: flex; flex-direction: column; gap: var(--space-1);
+  }
+
+  .cs-invite-note {
+    font-size: 0.65rem; opacity: 0.5; letter-spacing: 0.06em;
+  }
+
+  .cs-invite-codes {
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
+  }
+
+  .cs-invite-code {
+    display: inline-flex; align-items: center; gap: 0.3em;
+    padding: 0.35em 0.7em;
+    background: rgba(74,58,255,0.08); border: 1px solid rgba(74,58,255,0.2);
+    color: var(--c-hero); cursor: pointer;
+    font-size: 0.7rem; letter-spacing: 0.08em;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .cs-invite-code:hover { background: var(--c-hero); color: var(--paper); }
+  .cs-invite-code:focus-visible { outline: 2px solid var(--c-hero); outline-offset: 2px; }
+  .cs-invite-code.copied { background: #00C853; color: #fff; border-color: #00C853; }
+
+  .cs-invite-copy-icon { font-size: 0.8em; opacity: 0.6; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cs-demo-cta { transition: none; }
+    .cs-demo-cta:hover .cs-demo-arrow { transform: none; }
+  }
+
+  /* ---------- Sections ---------- */
+  .cs-section { padding: var(--space-6) var(--pad); scroll-margin-top: 5.5rem; }
+  .cs-bg-alt { background: #F7F7F5; }
+  .cs-section-inner { max-width: 880px; margin: 0 auto; }
+  .cs-section-inner-media { max-width: 1180px; }
+  .cs-layout-a.cs-section-inner-media > :not(:global(.cms-root)) {
+    width: 100%;
+    max-width: 880px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .cs-s-label { opacity: 0.4; }
+  .cs-s-title {
+    font-family: var(--font-display); font-size: clamp(1.8rem, 4.5vw, 3.5rem);
+    line-height: 1.15; text-transform: uppercase; letter-spacing: -0.01em; margin: var(--space-2) 0;
+    white-space: nowrap;
+  }
+  .cs-s-body { font-size: var(--text-md); line-height: 1.7; margin-bottom: var(--space-3); max-width: 32em; color: rgba(20,19,23,0.7); }
+
+  /* Layout B */
+  .cs-layout-b { display: grid; grid-template-columns: 1fr 1.2fr; gap: var(--space-4); align-items: start; }
+  .cs-layout-b > * { min-width: 0; }
+  .cs-layout-b > :global(.cms-root) { grid-column: 1 / -1; width: 100%; }
+  @media (max-width: 720px) { .cs-layout-b { grid-template-columns: 1fr; } }
+
+  /* Items */
+  .cs-items, .cs-items-wide { display: flex; flex-direction: column; gap: var(--space-4); margin: var(--space-3) 0; }
+  .cs-item { border-left: 3px solid var(--c-hero); padding-left: var(--space-3); }
+  .cs-item-label { font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.12em; text-transform: uppercase; color: var(--c-hero); margin-bottom: var(--space-1); }
+  .cs-item-title { font-size: var(--text-md); font-weight: 900; margin-bottom: var(--space-1); }
+  .cs-item-body { font-size: var(--text-base); line-height: 1.7; color: rgba(20,19,23,0.7); max-width: 36em; }
+
+  /* Cards */
+  .cs-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: var(--space-3); margin: var(--space-3) 0; }
+  .cs-card { background: #FFF; padding: var(--space-3); border: 1px solid rgba(20,19,23,0.06); }
+  .cs-bg-alt .cs-card { background: var(--paper); }
+  .cs-card-num { display: block; margin-bottom: var(--space-2); color: var(--c-hero); font-weight: 700; }
+  .cs-card strong { display: block; font-size: var(--text-md); font-weight: 900; margin-bottom: var(--space-1); }
+  .cs-card p { font-size: var(--text-sm); line-height: 1.6; color: rgba(20,19,23,0.7); }
+
+  /* AI Comic Studio: editorial case-study layout */
+  .cs-comic-project .cs-sidenav { display: none; }
+
+  .cs-comic-project .cs-section-inner {
+    max-width: 1180px;
+  }
+
+  .cs-comic-project .cs-layout-b {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.75rem;
+  }
+
+  .cs-comic-project .cs-s-title {
+    max-width: 18em;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+    text-transform: none;
+    font-size: clamp(2rem, 3.6vw, 3.35rem);
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+  }
+
+  .cs-comic-project .cs-s-body {
+    max-width: 42em;
+    font-size: clamp(1rem, 1.25vw, 1.16rem);
+    line-height: 1.8;
+  }
+
+  .cs-comic-project .cs-lb-right {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+  }
+
+  .cs-comic-project .cs-lb-right .cs-item {
+    min-width: 0;
+    padding: 1.25rem 0 0;
+    border-top: 1px solid rgba(20,19,23,0.16);
+    border-left: 0;
+  }
+
+  .cs-comic-project .cs-item-title,
+  .cs-comic-project .cs-item-body {
+    overflow-wrap: anywhere;
+  }
+
+  .cs-comic-project #flow .cs-cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .cs-comic-project .cs-card {
+    border-radius: 16px;
+    box-shadow: 0 14px 40px rgba(20,19,23,0.05);
+  }
+
+  .cs-comic-project .cs-section-figure {
+    border-radius: 18px;
+    box-shadow: 0 18px 54px rgba(20,19,23,0.12);
+  }
+
+  .cs-comic-project #flow .cs-fig-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .cs-comic-project #assets .cs-fig-grid {
+    grid-template-columns: minmax(0, 420px);
+    justify-content: center;
+  }
+
+  .cs-comic-project #studio .cs-fig-grid,
+  .cs-comic-project #keyframes .cs-fig-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cs-comic-project #generation .cs-fig-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .cs-comic-project #program-structure .cs-cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .cs-comic-project #technical-architecture .cs-cards {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media (max-width: 960px) {
+    .cs-comic-project #flow .cs-cards,
+    .cs-comic-project #flow .cs-fig-grid,
+    .cs-comic-project #program-structure .cs-cards,
+    .cs-comic-project #technical-architecture .cs-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cs-comic-project #generation .cs-fig-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 720px) {
+    .cs-comic-project .cs-s-title {
+      max-width: 100%;
+      font-size: clamp(1.9rem, 9vw, 2.55rem);
+      line-height: 1.16;
+    }
+
+    .cs-comic-project .cs-lb-right,
+    .cs-comic-project #flow .cs-cards,
+    .cs-comic-project #flow .cs-fig-grid,
+    .cs-comic-project #studio .cs-fig-grid,
+    .cs-comic-project #generation .cs-fig-grid,
+    .cs-comic-project #program-structure .cs-cards,
+    .cs-comic-project #technical-architecture .cs-cards {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  /* Xiaonuan: portfolio diagrams for structure, iteration and technology */
+  .cs-phone-project #architecture {
+    background: #f2f2ef;
+  }
+
+  .cs-phone-project #architecture .cs-section-inner,
+  .cs-phone-project #iteration .cs-section-inner,
+  .cs-phone-project #technical-architecture .cs-section-inner {
+    max-width: 1180px;
+  }
+
+  .cs-phone-project #architecture .cs-cards {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+    gap: 1rem;
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    border: 1px solid rgba(20,19,23,0.1);
+    border-radius: 24px;
+    background: rgba(255,255,255,0.76);
+  }
+
+  .cs-phone-project #architecture .cs-card {
+    min-height: 180px;
+    grid-column: span 2;
+    border-color: rgba(20,19,23,0.1);
+    border-radius: 18px;
+    box-shadow: 0 14px 36px rgba(20,19,23,0.05);
+  }
+
+  .cs-phone-project #architecture .cs-card:first-child {
+    grid-column: 4 / 8;
+    grid-row: 1;
+    min-height: 150px;
+    color: #fff;
+    background: linear-gradient(135deg, #6953c9, #8f72dc);
+    box-shadow: 0 22px 48px rgba(88, 65, 172, 0.22);
+  }
+
+  .cs-phone-project #architecture .cs-card:nth-child(n + 2) {
+    grid-row: 2;
+  }
+
+  .cs-phone-project #architecture .cs-card:first-child .cs-card-num,
+  .cs-phone-project #architecture .cs-card:first-child p {
+    color: rgba(255,255,255,0.82);
+  }
+
+  .cs-phone-project #architecture .cs-flow {
+    border: 0;
+    border-radius: 18px;
+    background: rgba(255,255,255,0.68);
+  }
+
+  .cs-phone-project #iteration .cs-layout-d {
+    display: grid;
+    grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
+    column-gap: clamp(2rem, 5vw, 5rem);
+  }
+
+  .cs-phone-project #iteration .cs-s-label,
+  .cs-phone-project #iteration .cs-s-title,
+  .cs-phone-project #iteration .cs-s-body {
+    grid-column: 1 / -1;
+  }
+
+  .cs-phone-project #iteration .cs-items {
+    grid-column: 1;
+    margin-top: var(--space-3);
+  }
+
+  .cs-phone-project #iteration .cs-cards {
+    grid-column: 2;
+    grid-row: 4;
+    grid-template-columns: 1fr;
+    margin-top: var(--space-3);
+  }
+
+  .cs-phone-project #iteration .cs-item {
+    border-left-color: #8b6be0;
+  }
+
+  .cs-phone-project #iteration .cs-card,
+  .cs-phone-project #technical-architecture .cs-card {
+    border-radius: 18px;
+    border-color: rgba(123, 92, 220, 0.14);
+    box-shadow: 0 14px 36px rgba(73, 52, 128, 0.06);
+  }
+
+  .cs-phone-project #technical-architecture .cs-cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  @media (max-width: 960px) {
+    .cs-phone-project #architecture .cs-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cs-phone-project #architecture .cs-card,
+    .cs-phone-project #architecture .cs-card:nth-child(n + 2) {
+      grid-column: auto;
+      grid-row: auto;
+    }
+
+    .cs-phone-project #architecture .cs-card:first-child {
+      grid-column: 1 / -1;
+    }
+
+    .cs-phone-project #iteration .cs-layout-d {
+      grid-template-columns: 1fr;
+    }
+
+    .cs-phone-project #iteration .cs-items,
+    .cs-phone-project #iteration .cs-cards {
+      grid-column: 1;
+      grid-row: auto;
+    }
+
+    .cs-phone-project #technical-architecture .cs-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* ---- Video stage ---- */
+  .cs-section { overflow: visible; }
+  .cs-video-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-3);
+    margin: var(--space-4) auto 0;
+    max-width: 1100px;
+    width: 100%;
+  }
+
+  .cs-video-stage {
+    background: #0B0B0D;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.2);
+  }
+
+  .cs-video-stage video {
+    width: 100%;
+    display: block;
+    border-radius: 11px;
+  }
+
+  .cs-video-caption {
+    display: block;
+    padding: 0.75rem 1rem 0.85rem;
+    color: rgba(255,255,255,0.76);
+    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+  }
+
+  #portrait .cs-video-grid { max-width: 640px; }
+  @media (max-width: 720px) {
+    .cs-video-grid { grid-template-columns: 1fr; }
+    #portrait .cs-video-grid { max-width: 100%; }
+  }
+
+  /* Xiaonuan: portrait product media in a calm phone presentation */
+  .cs-phone-project .cs-layout-b > .cs-video-stage,
+  .cs-phone-project .cs-layout-b > .cs-fig-grid,
+  .cs-phone-project .cs-layout-d > .cs-video-stage,
+  .cs-phone-project .cs-layout-d > .cs-fig-grid {
+    grid-column: 1 / -1;
+  }
+
+  .cs-phone-project .cs-section-inner {
+    max-width: 1120px;
+  }
+
+  .cs-phone-project .cs-layout-b {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+  }
+
+  .cs-phone-project .cs-s-title {
+    max-width: 24em;
+    font-size: clamp(1.85rem, 2.25vw, 2.7rem);
+    font-weight: 700;
+    line-height: 1.28;
+    letter-spacing: -0.025em;
+    text-transform: none;
+    text-wrap: balance;
+  }
+
+  .cs-phone-project .cs-layout-b .cs-s-title {
+    max-width: 24em;
+  }
+
+  :global(html[lang='ko']) .cs-phone-project .cs-s-title {
+    font-weight: 700;
+    line-height: 1.28;
+    letter-spacing: -0.025em;
+  }
+
+  .cs-phone-project .cs-s-body {
+    max-width: 35em;
+    font-size: clamp(1rem, 1.25vw, 1.18rem);
+    line-height: 1.82;
+  }
+
+  .cs-phone-project .cs-lb-right {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+    margin-top: 0.5rem;
+    padding-top: 0;
+  }
+
+  .cs-phone-project .cs-lb-right .cs-item {
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem 0 0;
+    border-top: 1px solid rgba(20,19,23,0.14);
+    border-left: 0;
+  }
+
+  .cs-phone-project .cs-lb-right .cs-item + .cs-item {
+    margin-top: 0;
+  }
+
+  .cs-phone-project .cs-lb-right .cs-item-label {
+    margin-bottom: 0.65rem;
+  }
+
+  .cs-phone-project .cs-item-phone {
+    position: relative;
+    width: min(100%, 280px);
+    margin: auto auto 0;
+    overflow: visible;
+    padding: 7px;
+    border-radius: 46px;
+    background: #111116;
+    box-shadow: 0 24px 64px rgba(47,37,92,0.18), 0 0 0 1px rgba(20,19,23,0.14);
+  }
+
+  .cs-phone-project .cs-item-phone::before {
+    content: '';
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    z-index: 2;
+    width: 76px;
+    height: 21px;
+    border-radius: 999px;
+    background: #050507;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .cs-phone-project .cs-item-phone img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 39px;
+  }
+
+  .cs-phone-project .cs-lb-right .cs-item:has(.cs-item-phone) .cs-item-body {
+    padding-bottom: 1.5rem;
+  }
+
+  .cs-phone-project .cs-video-stage {
+    width: min(100%, 420px);
+    margin-top: 0;
+    margin-right: auto;
+    margin-left: auto;
+    padding: 9px;
+    border: 0;
+    border-radius: 44px;
+    background: #111116;
+    box-shadow: 0 30px 80px rgba(47, 37, 92, 0.2), 0 0 0 1px rgba(20,19,23,0.12);
+  }
+
+  .cs-phone-project .cs-video-stage video {
+    aspect-ratio: 1080 / 1890;
+    max-height: none;
+    border-radius: 35px;
+    object-fit: cover;
+  }
+
+  /* ---- Section image ---- */
+  .cs-section-figure {
+    margin: var(--space-4) auto 0;
+    width: 100%;
+    max-width: 600px;
+    overflow: hidden;
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(20,19,23,0.1);
+  }
+
+  .cs-section-figure img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .cs-fig-wide {
+    max-width: none;
+    border-radius: 16px;
+  }
+
+  /* Multi-image grid (2-3 images) */
+  .cs-fig-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-3);
+    margin: var(--space-4) 0 0;
+    justify-items: center;
+  }
+
+  .cs-fig-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media (max-width: 900px) {
+    .cs-fig-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .cs-fig-grid .cs-section-figure {
+    margin: 0;
+    max-width: none;
+  }
+
+  .cs-phone-project .cs-fig-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    margin-top: 0;
+  }
+
+  @media (max-width: 960px) {
+    .cs-phone-project .cs-lb-right {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .cs-phone-project .cs-section-figure,
+  .cs-phone-project .cs-fig-grid .cs-section-figure {
+    position: relative;
+    width: min(100%, 320px);
+    max-width: 320px;
+    flex: 0 1 320px;
+    overflow: visible;
+    padding: 9px;
+    border-radius: 52px;
+    background: #111116;
+    box-shadow: 0 30px 80px rgba(47,37,92,0.2), 0 0 0 1px rgba(20,19,23,0.14);
+  }
+
+  .cs-phone-project .cs-section-figure::before {
+    content: '';
+    position: absolute;
+    top: 19px;
+    left: 50%;
+    z-index: 2;
+    width: 86px;
+    height: 24px;
+    border-radius: 999px;
+    background: #050507;
+    transform: translateX(-50%);
+    pointer-events: none;
+  }
+
+  .cs-phone-project .cs-section-figure img {
+    border-radius: 43px;
+  }
+
+  /* Flow */
+  .cs-flow { margin: var(--space-3) 0; padding: var(--space-3); background: #FFF; border: 1px solid rgba(20,19,23,0.06); }
+  .cs-bg-alt .cs-flow { background: var(--paper); }
+  .cs-flow-label { font-family: var(--font-display); font-size: var(--text-md); text-transform: uppercase; margin-bottom: var(--space-2); color: var(--c-hero); }
+  .cs-flow-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
+  .cs-flow-step { font-family: var(--font-mono); font-size: var(--text-sm); font-weight: 500; display: flex; align-items: center; gap: 0.4em; background: var(--paper); padding: 0.4em 0.8em; border: 1px solid rgba(20,19,23,0.1); }
+  .cs-flow-n { display: inline-flex; align-items: center; justify-content: center; width: 1.4em; height: 1.4em; border-radius: 50%; background: var(--c-hero); color: var(--paper); font-size: var(--text-xs); }
+  .cs-flow-step + .cs-flow-step { position: relative; }
+  .cs-flow-step + .cs-flow-step::before { content: '→'; position: absolute; left: -1rem; color: var(--c-hero); opacity: 0.4; font-size: var(--text-xs); }
+
+  /* Highlight */
+  .cs-highlight { margin: var(--space-3) 0; padding: var(--space-3); background: rgba(74,58,255,0.05); border-left: 4px solid var(--c-hero); }
+  .cs-hl-label { display: block; margin-bottom: var(--space-2); color: var(--c-hero); font-weight: 700; }
+  .cs-highlight p { font-size: var(--text-base); line-height: 1.7; color: rgba(20,19,23,0.75); }
+
+  /* Next */
+  .cs-next { padding: var(--space-5) var(--pad) var(--space-6); text-align: center; border-top: 1px solid rgba(20,19,23,0.1); }
+  .cs-next-link { display: inline-flex; flex-direction: column; gap: var(--space-1); text-decoration: none; color: inherit; transition: opacity 0.3s ease; }
+  .cs-next-link:hover { opacity: 0.6; }
+  .cs-next-label { opacity: 0.4; }
+  .cs-next-name { font-family: var(--font-display); font-size: clamp(1.3rem, 3.5vw, 2.5rem); text-transform: uppercase; letter-spacing: -0.01em; transition: letter-spacing 0.3s ease; }
+  .cs-next-link:hover .cs-next-name { letter-spacing: 0.04em; }
+
+  /* Reveal */
+  [data-reveal] { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  [data-reveal].revealed { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* Mobile */
+  @media (max-width: 720px) {
+    .cs-hero { padding-top: calc(var(--space-5) + 2rem); }
+    .cs-topnav { padding-top: calc(var(--space-5) + 2.5rem); }
+    .cs-topnav-label-full { display: none; }
+    .cs-topnav-label-mob { display: inline; }
+    .cs-section { padding: var(--space-4) var(--pad); }
+    .cs-cards { grid-template-columns: 1fr; }
+    .cs-phone-project .cs-layout-b { grid-template-columns: 1fr; gap: var(--space-3); }
+    .cs-phone-project .cs-s-title,
+    .cs-phone-project .cs-layout-b .cs-s-title {
+      max-width: 100%;
+      font-size: clamp(1.75rem, 7.5vw, 2.2rem);
+      line-height: 1.3;
+    }
+    .cs-phone-project .cs-lb-right { padding-top: 0; }
+    .cs-phone-project .cs-item-phone { width: min(78vw, 300px); }
+    .cs-phone-project .cs-video-stage { width: min(88vw, 370px); padding: 7px; border-radius: 38px; }
+    .cs-phone-project .cs-video-stage video { border-radius: 31px; }
+    .cs-phone-project .cs-section-figure,
+    .cs-phone-project .cs-fig-grid .cs-section-figure {
+      width: min(82vw, 300px);
+      flex-basis: min(82vw, 300px);
+      padding: 7px;
+      border-radius: 46px;
+    }
+    .cs-phone-project .cs-section-figure::before { top: 16px; width: 76px; height: 21px; }
+    .cs-phone-project .cs-section-figure img { border-radius: 39px; }
+    .cs-phone-project #architecture .cs-cards,
+    .cs-phone-project #technical-architecture .cs-cards { grid-template-columns: 1fr; }
+    .cs-phone-project #architecture .cs-card:first-child { grid-column: auto; }
+  }
+</style>
+
+<script>
+  import { motionDisabled, registerMotion, addToLoop, startLoop } from '../scripts/motion/motionManager';
+  import { initCustomCursor } from '../scripts/motion/customCursor';
+  import { initPageTransitions } from '../scripts/motion/pageTransitions';
+  import { splitToChars } from '../scripts/motion/kineticText';
+
+  // Invite code copy
+  document.querySelectorAll<HTMLButtonElement>('.cs-invite-code').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const code = btn.getAttribute('data-code') || '';
+      try {
+        await navigator.clipboard.writeText(code);
+        btn.classList.add('copied');
+        const orig = btn.childNodes[0]?.textContent || code;
+        btn.childNodes[0].textContent = '✓ Copied';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.childNodes[0].textContent = orig;
+        }, 1500);
+      } catch {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = code; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy'); document.body.removeChild(ta);
+        btn.classList.add('copied');
+        setTimeout(() => btn.classList.remove('copied'), 1500);
+      }
+    });
+  });
+
+  const disabled = motionDisabled();
+  // Cleanup handled by registerMotion / astro:before-swap
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Scroll reveal
+  if (!reduceMotion) {
+    const revealEls = document.querySelectorAll<HTMLElement>('[data-reveal]');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach((el) => observer.observe(el));
+  } else {
+    document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
+      el.style.opacity = '1'; el.style.transform = 'none';
+    });
+  }
+
+  // Sticky section nav
+  if (!reduceMotion) {
+    const sections = document.querySelectorAll<HTMLElement>('.cs-section[id]');
+    const navLinks = document.querySelectorAll<HTMLAnchorElement>('[data-section]');
+    if (sections.length > 0 && navLinks.length > 0) {
+      const navObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            navLinks.forEach((a) => a.classList.remove('active'));
+            const link = document.querySelector<HTMLAnchorElement>(`[data-section="${entry.target.id}"]`);
+            if (link) link.classList.add('active');
+          }
+        });
+      }, { threshold: 0.3, rootMargin: '-20% 0px -60% 0px' });
+      sections.forEach((s) => navObserver.observe(s));
+    }
+  }
+
+  // Hero title proximity + custom cursor + page transitions
+  if (!disabled) {
+    const heroName = document.getElementById('cs-hero-name');
+    const nextName = document.getElementById('cs-next-name');
+
+    // Split hero name into chars for proximity
+    if (heroName) {
+      const chars = splitToChars(heroName);
+      const charData = chars.map(el => ({ el, cx: 0, cy: 0 }));
+
+      const recalc = () => {
+        for (const c of charData) {
+          const r = c.el.getBoundingClientRect();
+          c.cx = r.left + r.width / 2; c.cy = r.top + r.height / 2;
+        }
+      };
+      requestAnimationFrame(() => { recalc(); window.addEventListener('resize', recalc); });
+
+      let px = -9999, py = -9999;
+      document.addEventListener('pointermove', (e) => { px = e.clientX; py = e.clientY; }, { passive: true });
+
+      // Next project chars
+      let nChars: Array<{ el: HTMLSpanElement; cx: number; cy: number }> = [];
+      if (nextName) {
+        const nc = splitToChars(nextName);
+        nChars = nc.map(el => ({ el, cx: 0, cy: 0 }));
+        const recalcN = () => {
+          for (const c of nChars) {
+            const r = c.el.getBoundingClientRect();
+            c.cx = r.left + r.width / 2; c.cy = r.top + r.height / 2;
+          }
+        };
+        requestAnimationFrame(() => { recalcN(); window.addEventListener('resize', recalcN); });
+      }
+
+      const update = () => {
+        for (const c of charData) {
+          const dx = px - c.cx, dy = py - c.cy;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 220) {
+            const s = (1 - dist / 220), s2 = s * s;
+            const angle = Math.atan2(dy, dx);
+            c.el.style.transform = `translate(${Math.cos(angle) * 14 * s2}px, ${Math.sin(angle) * 10 * s2}px) rotate(${Math.sin(angle*2) * 4 * s2}deg) scale(${1 + 0.08 * s2})`;
+          } else { c.el.style.transform = 'none'; }
+        }
+        for (const c of nChars) {
+          const dx = px - c.cx, dy = py - c.cy;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 180) {
+            const s = (1 - dist / 180), s2 = s * s;
+            const angle = Math.atan2(dy, dx);
+            c.el.style.transform = `translate(${Math.cos(angle) * 6 * s2}px, ${Math.sin(angle) * 5 * s2}px)`;
+          } else { c.el.style.transform = 'none'; }
+        }
+      };
+      addToLoop(update);
+      startLoop();
+    }
+
+    registerMotion('cursor', { init: initCustomCursor, destroy: () => {} });
+    registerMotion('transitions', {
+      init: () => {},
+      destroy: initPageTransitions({
+        links: document.querySelectorAll<HTMLAnchorElement>('.cs-topnav-back, .cs-topnav-next, .cs-next-link'),
+        getTransitionText: (link) => link.dataset.transitionLabel || 'WORKS',
+        overlayColor: '#2A1FCC',
+      }),
+    });
+  }
+</script>

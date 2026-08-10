@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageShell from '../../components/PageShell.astro';
+import { getContent } from '../../content/i18n';
+
+const t = getContent('zh');
+---
+
+<BaseLayout title={`${t.capability.title} · ${t.metaTitle}`} langAttr={t.langAttr} description={t.capability.groups.map((g) => g.title).join(' · ')} canonical="https://portfolio.hanyue-room.design/zh/capability/" alternateHref="https://portfolio.hanyue-room.design/ko/capability/" alternateLang="ko">
+  <PageShell locale="zh" t={t} currentPath="/zh/capability/" pageTitle={t.capability.title} pageEn={t.capability.label}>
+
+    <div class="seg-cap">
+      {
+        t.capability.groups.map((group, i) => (
+          <article class="seg-cap-item" data-reveal>
+            <div class="seg-cap-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</div>
+            <div class="seg-cap-body">
+              <div class="sys seg-cap-label">{group.labelEn}</div>
+              <h3 class="seg-cap-title">{group.title}</h3>
+              <p class="seg-cap-desc">{group.desc}</p>
+            </div>
+            <ul class="seg-cap-skills">
+              {group.skills.map((skill) => <li>{skill}</li>)}
+            </ul>
+          </article>
+        ))
+      }
+    </div>
+
+  </PageShell>
+</BaseLayout>
+
+<style>
+  .seg-cap-item {
+    display: grid;
+    grid-template-columns: minmax(80px, 10vw) 1.2fr 1fr;
+    gap: var(--space-3);
+    align-items: baseline;
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid rgba(20, 19, 23, 0.12);
+  }
+
+  .seg-cap-num {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 6rem);
+    line-height: 0.9;
+    color: var(--c-hero);
+    opacity: 0.5;
+  }
+
+  .seg-cap-label { opacity: 0.55; }
+
+  .seg-cap-title {
+    font-size: clamp(1.3rem, 2.2vw, 2rem);
+    font-weight: 900;
+    margin-top: var(--space-1);
+  }
+
+  .seg-cap-desc {
+    margin-top: var(--space-1);
+    font-size: var(--text-base);
+    line-height: 1.6;
+    max-width: 26em;
+    color: rgba(20, 19, 23, 0.7);
+  }
+
+  .seg-cap-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4em 1.2em;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .seg-cap-skills li::before {
+    content: '·';
+    margin-right: 0.6em;
+    opacity: 0.5;
+  }
+
+  @media (max-width: 720px) {
+    .seg-cap-item {
+      grid-template-columns: auto 1fr;
+      gap: var(--space-2);
+    }
+    .seg-cap-skills {
+      grid-column: 2;
+    }
+  }
+</style>

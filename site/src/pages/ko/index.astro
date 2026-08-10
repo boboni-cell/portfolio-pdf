@@ -1,0 +1,11 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import HomePage from '../../components/HomePage.astro';
+import { getContent } from '../../content/i18n';
+
+const t = getContent('ko');
+---
+
+<BaseLayout title={t.metaTitle} langAttr={t.langAttr} description={t.hero.tagline + t.hero.taglineAccent} canonical="https://portfolio.hanyue-room.design/ko/" alternateHref="https://portfolio.hanyue-room.design/zh/" alternateLang="zh-CN">
+  <HomePage locale="ko" t={t} />
+</BaseLayout>

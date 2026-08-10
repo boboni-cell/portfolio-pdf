@@ -1,0 +1,363 @@
+/* ========================================
+   AI SYSTEMS IN MOTION — Global Design System
+   ======================================== */
+
+:root {
+  /* Scene colors */
+  --c-hero: #4A3AFF;          /* saturated blue-violet */
+  --c-hero-deep: #2A1FCC;
+  --c-xn: #E3D9FF;            /* lavender pink-light */
+  --c-xn-ink: #241A3F;        /* dark violet ink on lavender */
+  --c-cw: #101418;            /* cold slate black */
+  --c-cw-accent: #37F4E4;     /* electric cyan */
+  --c-cap: #DDE8CF;           /* restrained acid-grey green */
+  --c-cap-ink: #1C2417;
+  --c-about: #E8E4DC;         /* warm grey-beige */
+  --c-about-ink: #22201C;
+  --c-contact: #0A0A0B;
+  --c-contact-ink: #F4F4F2;
+
+  /* Neutral */
+  --ink: #141317;
+  --paper: #F4F4F2;
+
+  /* Typography */
+  --font-display: "Anton", "Noto Sans SC", "Noto Sans KR", sans-serif;
+  --font-cn: "Noto Sans SC", "PingFang SC", sans-serif;
+  --font-kr: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Helvetica Neue", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Type scale */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
+  --text-lg: 1.375rem;
+  --text-xl: 1.75rem;
+  --giant: clamp(4rem, 17vw, 17rem);
+  --giant-md: clamp(3rem, 11vw, 11rem);
+
+  /* Spacing */
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.5rem;
+  --space-4: 2.5rem;
+  --space-5: 4rem;
+  --space-6: 6rem;
+
+  --pad: clamp(1.25rem, 4vw, 4rem);
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--c-hero);
+  color: var(--paper);
+  font-family: var(--font-cn);
+  font-size: var(--text-base);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ---------- Korean typography ---------- */
+/* Only set body default. English elements protected by explicit font-family from components. */
+html[lang='ko'] body {
+  font-family: var(--font-kr);
+  word-break: keep-all;
+}
+
+/* Korean: body text — targets paragraph-level Korean content */
+:lang(ko) .hp-tagline,
+:lang(ko) .wi-sub,
+:lang(ko) .cs-s-body,
+:lang(ko) .cs-item-body,
+:lang(ko) .seg-about-statement {
+  font-family: var(--font-kr);
+  letter-spacing: -0.01em;
+  line-height: 1.75;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+/* Korean: only the Chinese/Korean name label gets Korean font */
+:lang(ko) .hp-name-cn {
+  font-family: var(--font-kr);
+}
+
+/* Korean: Korean-language project titles (the .wi-name in ko pages) */
+:lang(ko) .wi-name {
+  font-family: var(--font-kr);
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  word-break: keep-all;
+}
+
+/* Korean: section title in case-study (may be Korean in ko pages) */
+:lang(ko) .cs-s-title {
+  font-family: var(--font-kr);
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  line-height: 1.15;
+  text-transform: none;
+  word-break: keep-all;
+}
+
+/* Korean: next-project name (may be Korean in ko pages) */
+:lang(ko) .cs-next-name {
+  font-family: var(--font-kr);
+  font-weight: 750;
+  letter-spacing: -0.03em;
+  text-transform: none;
+}
+
+/* Korean: page shell title */
+:lang(ko) .ps-title {
+  font-family: var(--font-kr);
+  font-weight: 750;
+  letter-spacing: -0.04em;
+  text-transform: none;
+}
+
+/* Korean: Korean contact headline */
+:lang(ko) .kc-headline {
+  font-family: var(--font-kr);
+  font-weight: 750;
+  letter-spacing: -0.05em;
+  text-transform: none;
+  word-break: keep-all;
+}
+
+/* ── English protection: lock Latin text to display/mono fonts ── */
+/* These rules ensure English stays on the correct font stack regardless of page language. */
+[lang="en"].latin-display,
+.latin-display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-synthesis: none;
+}
+
+[lang="en"].latin-mono,
+.latin-mono {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-synthesis: none;
+}
+
+/* Korean page: ensure English elements are not overridden */
+html[lang='ko'] .hp-line,
+html[lang='ko'] .hp-giant,
+html[lang='ko'] .giant {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+}
+
+html[lang='ko'] .hp-role {
+  font-family: var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+html[lang='ko'] .sys {
+  font-family: var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+html[lang='ko'] .wi-name-en {
+  font-family: var(--font-mono);
+  letter-spacing: 0.04em;
+}
+
+html[lang='ko'] .cs-hero-name-en {
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+}
+
+html[lang='ko'] .cs-s-label {
+  font-family: var(--font-mono);
+  letter-spacing: 0.06em;
+}
+
+html[lang='ko'] .seg-contact-headline {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+}
+
+html[lang='ko'] .kc-sub {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+/* ---------- Focus ---------- */
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* ---------- Scene base ---------- */
+.scene {
+  position: relative;
+  overflow: clip;
+}
+
+.scene-viewport {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+/* System marker — mono small caps labels */
+.sys {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Giant display type */
+.giant {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+/* ---------- Scroll reveal ---------- */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+[data-reveal].revealed {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ---------- Motion char ---------- */
+.mc-char {
+  display: inline-block;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* ---------- Custom cursor ---------- */
+.mc-dot, .mc-ring {
+  position: fixed; top: 0; left: 0;
+  pointer-events: none; z-index: 9999;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.mc-dot {
+  width: 5px; height: 5px;
+  background: var(--paper);
+  mix-blend-mode: difference;
+}
+
+.mc-ring {
+  width: 30px; height: 30px;
+  border: 1.5px solid var(--paper);
+  mix-blend-mode: difference;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.mc-ring[data-label]::after {
+  content: attr(data-label);
+  font-family: var(--font-mono);
+  font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--paper); mix-blend-mode: difference;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce), (pointer: coarse), (hover: none) {
+  .mc-dot, .mc-ring { display: none !important; }
+  .mc-char { transform: none !important; }
+}
+
+/* ---------- Page transition overlay ---------- */
+html.mot-transitioning,
+html.mot-transitioning body { overflow: hidden !important; }
+
+.mot-overlay {
+  position: fixed; inset: 0; z-index: 9999;
+  background: #0A0A0B;
+  display: flex; align-items: center; justify-content: center;
+  clip-path: circle(0% at 50% 50%);
+  pointer-events: none;
+}
+
+.mot-overlay.active {
+  clip-path: circle(150% at 50% 50%);
+  transition: clip-path 0.45s cubic-bezier(0.7, 0, 0.3, 1);
+}
+
+.mot-overlay-text {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(3rem, 10vw, 10rem);
+  color: #F4F4F2;
+  text-transform: uppercase;
+  line-height: 0.92;
+  text-align: center;
+  white-space: nowrap;
+  opacity: 0;
+  transform: scale(1.4);
+  transition: opacity 0.25s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mot-overlay.active .mot-overlay-text { opacity: 1; transform: scale(1); }
+
+/* ---------- Old pt- classes (remove) ---------- */
+.pt-cursor-dot, .pt-cursor-ring { display: none !important; }
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

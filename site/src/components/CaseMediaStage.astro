@@ -1,0 +1,402 @@
+---
+interface MediaImage {
+  src: string;
+  alt: string;
+  caption: string;
+  srcset?: string;
+  sizes?: string;
+}
+
+interface Props {
+  mode: 'feature' | 'panorama' | 'tabs';
+  images: MediaImage[];
+  annotations?: { label: string; x: number; y: number }[];
+  tabLabels?: string[];
+  locale: string;
+  sectionId: string;
+}
+
+const { mode, images, annotations, tabLabels, locale, sectionId } = Astro.props;
+const copy = locale === 'zh'
+  ? { view: '点击查看大图', reset: '返回全景', image: '张界面图' }
+  : { view: '클릭하여 확대', reset: '전체 보기', image: '개 화면' };
+---
+
+<figure
+  class:list={['cms-root', `cms-${mode}`]}
+  id={`media-${sectionId}`}
+  data-media-stage
+>
+  <figcaption class="cms-header sys">
+    <span><b>{sectionId.toUpperCase()}</b> / PRODUCT VIEW</span>
+    <span class="cms-explore">{copy.view} ↗</span>
+  </figcaption>
+
+  {mode === 'feature' && images[0] && (
+    <div class="cms-body">
+      <button
+        class="cms-media-trigger cms-feature-frame"
+        type="button"
+        data-fv-src={images[0].src}
+        data-fv-alt={images[0].alt}
+        data-fv-caption={images[0].caption}
+        aria-label={`${copy.view}：${images[0].alt}`}
+      >
+        <img
+          src={images[0].src}
+          alt={images[0].alt}
+          srcset={images[0].srcset || undefined}
+          sizes={images[0].sizes}
+          loading="lazy"
+          decoding="async"
+        />
+        <span class="cms-open-mark sys" aria-hidden="true">FULL VIEW ↗</span>
+      </button>
+      {images[0].caption && (
+        <div class="cms-caption"><span class="sys">01</span><p>{images[0].caption}</p></div>
+      )}
+    </div>
+  )}
+
+  {mode === 'panorama' && images[0] && (
+    <div class="cms-body">
+      <div class="cms-panorama-frame">
+        <button
+          class="cms-media-trigger"
+          type="button"
+          data-fv-src={images[0].src}
+          data-fv-alt={images[0].alt}
+          data-fv-caption={images[0].caption}
+          aria-label={`${copy.view}：${images[0].alt}`}
+        >
+          <img
+            src={images[0].src}
+            alt={images[0].alt}
+            srcset={images[0].srcset || undefined}
+            sizes={images[0].sizes}
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="cms-open-mark sys" aria-hidden="true">FULL VIEW ↗</span>
+        </button>
+        {annotations && annotations.length > 0 && (
+          <div class="cms-annotations">
+            {annotations.map((annotation, index) => (
+              <button
+                class="cms-anno sys"
+                type="button"
+                style={`--x:${annotation.x}%;--y:${annotation.y}%`}
+                data-focus-x={annotation.x}
+                data-focus-y={annotation.y}
+                aria-pressed="false"
+              >
+                <span>{String(index + 1).padStart(2, '0')}</span>{annotation.label}
+              </button>
+            ))}
+          </div>
+        )}
+        <button class="cms-focus-reset sys" type="button">← {copy.reset}</button>
+      </div>
+      {images[0].caption && (
+        <div class="cms-caption"><span class="sys">01</span><p>{images[0].caption}</p></div>
+      )}
+    </div>
+  )}
+
+  {mode === 'tabs' && tabLabels && tabLabels.length > 0 && (
+    <div class="cms-body cms-tabs-wrap">
+      <div class="cms-tab-nav" role="tablist" aria-label={locale === 'zh' ? '场景选择' : '장면 선택'}>
+        {tabLabels.map((label, index) => (
+          <button
+            class:list={['cms-tab', { active: index === 0 }]}
+            type="button"
+            role="tab"
+            aria-selected={index === 0 ? 'true' : 'false'}
+            aria-controls={`panel-${sectionId}-${index}`}
+            tabindex={index === 0 ? 0 : -1}
+            data-tab-index={index}
+            id={`tab-${sectionId}-${index}`}
+          ><span class="sys">0{index + 1}</span>{label}</button>
+        ))}
+      </div>
+      {images.map((image, index) => (
+        <div
+          class:list={['cms-tab-panel', { active: index === 0 }]}
+          role="tabpanel"
+          id={`panel-${sectionId}-${index}`}
+          aria-labelledby={`tab-${sectionId}-${index}`}
+          hidden={index !== 0}
+          data-panel-index={index}
+        >
+          <button
+            class="cms-media-trigger cms-tab-frame"
+            type="button"
+            data-fv-src={image.src}
+            data-fv-alt={image.alt}
+            data-fv-caption={image.caption}
+            aria-label={`${copy.view}：${image.alt}`}
+          >
+            <img
+              src={image.src}
+              alt={image.alt}
+              srcset={image.srcset || undefined}
+              sizes={image.sizes}
+              loading="lazy"
+              decoding="async"
+            />
+            <span class="cms-open-mark sys" aria-hidden="true">FULL VIEW ↗</span>
+          </button>
+          {image.caption && (
+            <div class="cms-caption"><span class="sys">0{index + 1}</span><p>{image.caption}</p></div>
+          )}
+        </div>
+      ))}
+      <div class="cms-tab-footer sys" data-tab-counter>01 / {String(images.length).padStart(2, '0')} · {images.length} {copy.image}</div>
+    </div>
+  )}
+</figure>
+
+<style>
+  .cms-root {
+    margin: clamp(2.5rem, 6vw, 5.5rem) 0 0;
+    overflow: hidden;
+    background: #111114;
+    color: var(--paper);
+    border: 1px solid rgba(20, 19, 23, 0.14);
+    border-radius: 4px;
+    box-shadow: 0 28px 80px rgba(28, 23, 70, 0.14);
+  }
+
+  .cms-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 48px;
+    padding: 0.75rem clamp(1rem, 2vw, 1.5rem);
+    color: rgba(244, 244, 242, 0.48);
+    border-bottom: 1px solid rgba(244, 244, 242, 0.1);
+    font-size: 0.66rem;
+    letter-spacing: 0.13em;
+  }
+
+  .cms-header b { color: var(--paper); font-weight: 600; }
+  .cms-explore { color: #8f85ff; }
+  .cms-body { padding: clamp(0.75rem, 2.4vw, 2rem); }
+
+  .cms-media-trigger {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-height: 240px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 0;
+    border: 0;
+    border-radius: 2px;
+    background: #eceef2;
+    cursor: zoom-in;
+  }
+
+  .cms-media-trigger img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1), filter 300ms ease;
+  }
+
+  .cms-feature-frame,
+  .cms-tab-frame { max-height: min(78vh, 780px); }
+  .cms-feature-frame img,
+  .cms-tab-frame img { max-height: min(78vh, 780px); }
+
+  .cms-open-mark {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    padding: 0.55rem 0.7rem;
+    background: rgba(17, 17, 20, 0.88);
+    color: var(--paper);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 250ms ease, transform 250ms ease;
+  }
+
+  .cms-media-trigger:hover img { transform: scale(1.012); filter: contrast(1.02); }
+  .cms-media-trigger:hover .cms-open-mark,
+  .cms-media-trigger:focus-visible .cms-open-mark { opacity: 1; transform: none; }
+  .cms-media-trigger:focus-visible { outline: 3px solid #8f85ff; outline-offset: 3px; }
+
+  .cms-caption {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+    margin-top: 1rem;
+    color: rgba(244, 244, 242, 0.58);
+  }
+
+  .cms-caption > span { color: #8f85ff; font-size: 0.66rem; letter-spacing: 0.12em; }
+  .cms-caption p { max-width: 56em; font-size: var(--text-sm); line-height: 1.6; }
+
+  .cms-panorama-frame { position: relative; overflow: hidden; border-radius: 2px; background: #eceef2; }
+  .cms-panorama-frame .cms-media-trigger { transition: transform 600ms cubic-bezier(0.16, 1, 0.3, 1); transform-origin: var(--focus-x, 50%) var(--focus-y, 50%); }
+  .cms-panorama-frame.is-focused .cms-media-trigger { transform: scale(1.65); }
+
+  .cms-annotations { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+  .cms-anno {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 32px;
+    padding: 0.35rem 0.6rem;
+    border: 1px solid rgba(255, 255, 255, 0.78);
+    border-radius: 999px;
+    background: rgba(17, 17, 20, 0.88);
+    color: var(--paper);
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.2);
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+    cursor: pointer;
+    pointer-events: auto;
+    transform: translate(-50%, -50%);
+    transition: background 180ms ease, color 180ms ease, opacity 180ms ease;
+  }
+  .cms-anno span { color: #a89fff; }
+  .cms-anno:hover,
+  .cms-anno:focus-visible { background: var(--paper); color: var(--ink); outline: none; }
+  .cms-panorama-frame.is-focused .cms-anno { opacity: 0; pointer-events: none; }
+
+  .cms-focus-reset {
+    position: absolute;
+    left: 1rem;
+    bottom: 1rem;
+    z-index: 3;
+    display: none;
+    min-height: 38px;
+    padding: 0.45rem 0.75rem;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(17,17,20,0.9);
+    color: var(--paper);
+    cursor: pointer;
+  }
+  .cms-panorama-frame.is-focused .cms-focus-reset { display: block; }
+
+  .cms-tab-nav { display: flex; gap: 0; margin-bottom: 1rem; border-bottom: 1px solid rgba(244,244,242,0.13); }
+  .cms-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    min-height: 48px;
+    padding: 0.65rem 1rem;
+    border: 0;
+    border-bottom: 2px solid transparent;
+    background: none;
+    color: rgba(244,244,242,0.48);
+    font: inherit;
+    cursor: pointer;
+  }
+  .cms-tab span { color: #8f85ff; font-size: 0.62rem; }
+  .cms-tab:hover { color: rgba(244,244,242,0.8); }
+  .cms-tab.active { color: var(--paper); border-bottom-color: #8f85ff; }
+  .cms-tab:focus-visible { outline: 2px solid #8f85ff; outline-offset: -3px; }
+  .cms-tab-panel[hidden] { display: none; }
+  .cms-tab-panel.active { animation: cms-panel-in 420ms cubic-bezier(0.16, 1, 0.3, 1); }
+  .cms-tab-footer { margin-top: 1rem; color: rgba(244,244,242,0.34); font-size: 0.64rem; letter-spacing: 0.12em; text-align: right; }
+
+  @keyframes cms-panel-in {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  @media (max-width: 720px) {
+    .cms-root { margin-top: 2.5rem; box-shadow: 0 18px 50px rgba(28,23,70,0.12); }
+    .cms-header { min-height: 42px; padding: 0.65rem 0.8rem; }
+    .cms-explore { display: none; }
+    .cms-body { padding: 0.55rem; }
+    .cms-media-trigger { min-height: 180px; }
+    .cms-feature-frame,
+    .cms-feature-frame img,
+    .cms-tab-frame,
+    .cms-tab-frame img { max-height: 68vh; }
+    .cms-open-mark { right: 0.55rem; bottom: 0.55rem; opacity: 1; transform: none; }
+    .cms-caption { grid-template-columns: 1.75rem minmax(0, 1fr); gap: 0.55rem; margin: 0.7rem 0.3rem 0.2rem; }
+    .cms-caption p { font-size: var(--text-xs); }
+    .cms-anno { min-height: 28px; padding: 0.25rem 0.45rem; font-size: 0.54rem; }
+    .cms-anno span { display: none; }
+    .cms-tab { flex: 1; justify-content: center; padding: 0.55rem 0.35rem; font-size: var(--text-sm); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cms-media-trigger img,
+    .cms-panorama-frame .cms-media-trigger,
+    .cms-tab-panel.active { transition: none; animation: none; }
+    .cms-media-trigger:hover img { transform: none; }
+  }
+</style>
+
+<script>
+  function initMediaStages() {
+    document.querySelectorAll<HTMLElement>('[data-media-stage]').forEach((root) => {
+      if (root.dataset.mediaReady === 'true') return;
+      root.dataset.mediaReady = 'true';
+
+      const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+      const panels = Array.from(root.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+      const counter = root.querySelector<HTMLElement>('[data-tab-counter]');
+
+      const selectTab = (index: number, focus = false) => {
+        tabs.forEach((tab, tabIndex) => {
+          const active = tabIndex === index;
+          tab.classList.toggle('active', active);
+          tab.setAttribute('aria-selected', String(active));
+          tab.tabIndex = active ? 0 : -1;
+          if (active && focus) tab.focus();
+        });
+        panels.forEach((panel, panelIndex) => {
+          const active = panelIndex === index;
+          panel.classList.toggle('active', active);
+          panel.hidden = !active;
+        });
+        if (counter) counter.textContent = `${String(index + 1).padStart(2, '0')} / ${String(panels.length).padStart(2, '0')}`;
+      };
+
+      tabs.forEach((tab, index) => {
+        tab.addEventListener('click', () => selectTab(index));
+        tab.addEventListener('keydown', (event) => {
+          if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+          event.preventDefault();
+          const direction = event.key === 'ArrowRight' ? 1 : -1;
+          selectTab((index + direction + tabs.length) % tabs.length, true);
+        });
+      });
+
+      const panorama = root.querySelector<HTMLElement>('.cms-panorama-frame');
+      const reset = root.querySelector<HTMLButtonElement>('.cms-focus-reset');
+      root.querySelectorAll<HTMLButtonElement>('.cms-anno').forEach((annotation) => {
+        annotation.addEventListener('click', () => {
+          if (!panorama) return;
+          panorama.style.setProperty('--focus-x', `${annotation.dataset.focusX}%`);
+          panorama.style.setProperty('--focus-y', `${annotation.dataset.focusY}%`);
+          panorama.classList.add('is-focused');
+          annotation.setAttribute('aria-pressed', 'true');
+          reset?.focus();
+        });
+      });
+      reset?.addEventListener('click', () => {
+        panorama?.classList.remove('is-focused');
+        root.querySelectorAll('.cms-anno').forEach((annotation) => annotation.setAttribute('aria-pressed', 'false'));
+      });
+    });
+  }
+
+  initMediaStages();
+  document.addEventListener('astro:page-load', initMediaStages);
+</script>

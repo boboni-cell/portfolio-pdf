@@ -1,0 +1,16 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import InteractiveDemoPage from '../../../../components/InteractiveDemoPage.astro';
+
+const demoUrl = 'https://image.hanyue-room.design/demo';
+---
+
+<BaseLayout title="AI 무한 캔버스 · 라이브 데모" langAttr="ko" description="AI 무한 캔버스 — 배치 이미지 생성 관리 도구를 온라인으로 체험하세요">
+  <InteractiveDemoPage
+    demoUrl={demoUrl}
+    backHref="/ko/work/ai-infinite-canvas/"
+    backLabel="프로젝트 사례로 돌아가기"
+    iframeTitle="AI 무한 캔버스 — 라이브 데모"
+    mobileHint="무한 캔버스는 데스크톱 환경을 권장합니다"
+  />
+</BaseLayout>

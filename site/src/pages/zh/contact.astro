@@ -1,0 +1,124 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageShell from '../../components/PageShell.astro';
+import { getContent } from '../../content/i18n';
+
+const t = getContent('zh');
+---
+
+<BaseLayout title={`${t.contact.title} · ${t.metaTitle}`} langAttr={t.langAttr} description={t.contact.desc} canonical="https://portfolio.hanyue-room.design/zh/contact/" alternateHref="https://portfolio.hanyue-room.design/ko/contact/" alternateLang="ko">
+  <PageShell locale="zh" t={t} currentPath="/zh/contact/" pageTitle={t.contact.title} pageEn={t.contact.label}>
+
+    <div class="seg-contact">
+      <h2 class="seg-contact-headline">{t.contact.headline}</h2>
+
+      <div class="seg-contact-links">
+        <a class="seg-contact-mail" href="mailto:zhyyyy0706@gmail.com">
+          <span>zhyyyy0706@gmail.com</span>
+          <span class="seg-contact-arrow" aria-hidden="true">→</span>
+        </a>
+      </div>
+
+      <div class="seg-contact-phones">
+        <span class="seg-contact-phone">+86 150 0717 4513</span>
+        <span class="seg-contact-phone">010-8297-9513</span>
+        <span class="seg-contact-note sys">如需电话沟通，方便的话请先发一封邮件或短信说明来意，非常感谢。</span>
+      </div>
+
+      <a class="seg-contact-site sys" href="https://hanyue-room.design" rel="noopener">hanyue-room.design ↗</a>
+
+      <div class="seg-contact-foot">
+        <span>{t.contact.desc}</span>
+        <span>{t.footer.copyright}</span>
+      </div>
+    </div>
+
+  </PageShell>
+</BaseLayout>
+
+<style>
+  .seg-contact-headline {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 8vw, 8rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+    margin-bottom: var(--space-5);
+    max-width: 10em;
+  }
+
+  .seg-contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin-bottom: var(--space-3);
+  }
+
+  .seg-contact-mail {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: fit-content;
+    font-family: var(--font-mono);
+    font-size: clamp(1rem, 2.4vw, 1.8rem);
+    padding: 0.3em 0.6em;
+    margin-left: -0.6em;
+    color: var(--ink);
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .seg-contact-mail:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .seg-contact-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .seg-contact-mail:hover .seg-contact-arrow {
+    transform: translateX(0.35em);
+  }
+
+  .seg-contact-phones {
+    display: flex; flex-direction: column; gap: 0.3em;
+    margin-bottom: var(--space-3);
+  }
+
+  .seg-contact-phone {
+    font-family: var(--font-mono);
+    font-size: clamp(0.9rem, 1.4vw, 1.2rem);
+    color: rgba(20,19,23,0.6);
+    letter-spacing: 0.04em;
+  }
+
+  .seg-contact-note {
+    margin-top: 0.6em;
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
+    opacity: 0.45;
+    max-width: 32em;
+    line-height: 1.5;
+  }
+
+  .seg-contact-site {
+    display: inline-block;
+    opacity: 0.6;
+    padding-bottom: 2px;
+    border-bottom: 1px solid currentColor;
+    color: var(--ink);
+    text-decoration: none;
+    margin-bottom: var(--space-5);
+  }
+
+  .seg-contact-foot {
+    border-top: 1px solid rgba(20, 19, 23, 0.12);
+    padding-top: var(--space-4);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    opacity: 0.5;
+  }
+</style>

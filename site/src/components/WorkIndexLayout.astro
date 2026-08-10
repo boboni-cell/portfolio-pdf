@@ -1,0 +1,292 @@
+---
+import type { Locale, SiteContent } from '../content/i18n';
+import { SLUGS } from '../content/projects';
+import Header from './Header.astro';
+
+interface Props { locale: Locale; t: SiteContent; }
+const { locale, t } = Astro.props;
+const projects = t.work.projects;
+const keywords = ['XIAONUAN', 'COMIC STUDIO', 'INFINITE CANVAS', 'MILK & RIBBON', 'MOTION'];
+const rowColors = ['#E3D9FF', '#101418', '#F7F7F5', '#FCE4EC', '#1A1A2E'];
+---
+
+<Header locale={locale} nav={t.nav} currentPath={`/${locale}/work/`} />
+
+<main class="wi-root" id="wi-root">
+  <div class="wi-floating" id="wi-floating" aria-hidden="true"></div>
+
+  <div class="wi-hero">
+    <div class="sys wi-label">{t.work.label}</div>
+    <h1 class="wi-title">{t.work.title}</h1>
+    <div class="wi-count sys">{projects.length} PROJECTS</div>
+  </div>
+
+  <div class="wi-list" id="wi-list">
+    {projects.map((p, i) => (
+      <a class="wi-item" href={`/${locale}/work/${SLUGS[i]}/`} data-keyword={keywords[i]} data-bg={rowColors[i]}>
+        <span class="wi-num sys">{p.num}</span>
+        <div class="wi-body">
+          <h2 class="wi-name">{p.name}</h2>
+          <div class="wi-name-en sys">{p.nameEn}</div>
+          <p class="wi-sub">{p.subtitle}</p>
+          <div class="wi-meta sys">{p.meta}</div>
+        </div>
+        <span class="wi-arrow" aria-hidden="true">→</span>
+      </a>
+    ))}
+  </div>
+</main>
+
+<style>
+  .wi-root {
+    background: var(--paper); color: var(--ink);
+    min-height: 100vh; min-height: 100svh;
+    transition: background-color 0.5s ease, color 0.5s ease;
+  }
+
+  .wi-floating {
+    position: fixed; z-index: 90;
+    font-family: var(--font-display);
+    font-size: clamp(4rem, 14vw, 14rem);
+    text-transform: uppercase; line-height: 0.92; letter-spacing: -0.02em;
+    opacity: 0; color: var(--c-hero);
+    pointer-events: none; white-space: nowrap;
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease;
+  }
+
+  .wi-hero {
+    padding: calc(var(--space-5) + 3.5rem) var(--pad) var(--space-4);
+    border-bottom: 1px solid rgba(20,19,23,0.1);
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2);
+  }
+  .wi-label { opacity: 0.4; }
+  .wi-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 7vw, 6rem);
+    line-height: 1.05; text-transform: uppercase; letter-spacing: -0.01em; flex: 1;
+  }
+  .wi-count { opacity: 0.3; font-size: var(--text-sm); }
+
+  .wi-list { padding: 0 var(--pad) var(--space-6); }
+
+  .wi-item {
+    display: grid;
+    grid-template-columns: 4rem 1fr auto;
+    gap: var(--space-2) var(--space-3);
+    align-items: start;
+    padding: var(--space-4) 0;
+    border-bottom: 1px solid rgba(20,19,23,0.08);
+    text-decoration: none; color: inherit;
+    transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding-left 0.3s ease;
+    position: relative;
+  }
+  .wi-item:focus-visible { outline: 2px solid var(--c-hero); outline-offset: 2px; }
+
+  .wi-num {
+    grid-row: 1 / -1;
+    font-size: var(--text-xl); font-weight: 700;
+    color: var(--c-hero); opacity: 0.4;
+    align-self: center;
+    transition: transform 0.35s ease, opacity 0.35s ease;
+  }
+  .wi-name {
+    font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; line-height: 1.1;
+    transition: font-size 0.4s ease, color 0.3s ease;
+  }
+  .wi-name-en { opacity: 0.45; transition: opacity 0.3s ease, transform 0.35s ease; }
+  .wi-sub {
+    font-size: var(--text-md); line-height: 1.5; margin-top: var(--space-1);
+    max-width: 40em; color: rgba(20,19,23,0.65);
+    opacity: 0; max-height: 0; overflow: hidden;
+    transition: opacity 0.4s ease, max-height 0.4s ease;
+  }
+  .wi-meta { margin-top: var(--space-1); opacity: 0.35; }
+  .wi-arrow {
+    font-family: var(--font-mono); font-size: var(--text-lg);
+    color: var(--c-hero); align-self: center;
+    transition: transform 0.35s ease, opacity 0.35s ease; opacity: 0.3;
+  }
+
+  /* Active row state */
+  .wi-item.wi-active {
+    padding-top: var(--space-5); padding-bottom: var(--space-5);
+  }
+  .wi-item.wi-active .wi-name { font-size: clamp(3rem, 8vw, 6rem); color: var(--c-hero); }
+  .wi-item.wi-active .wi-num { opacity: 1; transform: scale(1.3); }
+  .wi-item.wi-active .wi-sub { opacity: 1; max-height: 3em; }
+  .wi-item.wi-active .wi-arrow { opacity: 1; transform: translateX(0.5em); }
+
+  @media (max-width: 720px) {
+    .wi-hero { padding-top: calc(var(--space-5) + 2.5rem); }
+    .wi-item { grid-template-columns: 3rem 1fr auto; }
+    .wi-name { font-size: clamp(1.5rem, 7vw, 2.2rem); }
+    .wi-item.wi-active .wi-name { font-size: clamp(2rem, 9vw, 3rem); }
+    .wi-floating { display: none; }
+  }
+</style>
+
+<script>
+  import { registerMotion } from '../scripts/motion/motionManager';
+  import { initCustomCursor } from '../scripts/motion/customCursor';
+  import { initPageTransitions } from '../scripts/motion/pageTransitions';
+  import { initScrollVelocity } from '../scripts/motion/scrollVelocity';
+  import { motionDisabled, addToLoop, startLoop } from '../scripts/motion/motionManager';
+
+  if (!motionDisabled()) {
+    const rows = document.querySelectorAll<HTMLAnchorElement>('.wi-item');
+    const floating = document.getElementById('wi-floating')!;
+    const root = document.getElementById('wi-root')!;
+    let activeRow: HTMLAnchorElement | null = null;
+    let px = -9999, py = -9999;
+
+    // Split name chars for wave effect
+    const rowData: Array<{ row: HTMLAnchorElement; chars: HTMLSpanElement[]; numEl: HTMLElement; enEl: HTMLElement }> = [];
+
+    rows.forEach(row => {
+      const nameEl = row.querySelector<HTMLElement>('.wi-name');
+      const chars: HTMLSpanElement[] = [];
+      if (nameEl) {
+        const text = nameEl.textContent || '';
+        nameEl.textContent = '';
+        for (let i = 0; i < text.length; i++) {
+          const span = document.createElement('span');
+          span.className = 'mc-char'; span.textContent = text[i];
+          span.style.display = 'inline-block';
+          span.setAttribute('aria-hidden', 'true');
+          if (text[i] === ' ') span.style.width = '0.28em';
+          nameEl.appendChild(span);
+          chars.push(span);
+        }
+      }
+      rowData.push({
+        row,
+        chars,
+        numEl: row.querySelector<HTMLElement>('.wi-num')!,
+        enEl: row.querySelector<HTMLElement>('.wi-name-en')!,
+      });
+    });
+
+    // Pointer tracking
+    document.addEventListener('pointermove', (e) => { px = e.clientX; py = e.clientY; }, { passive: true });
+    document.addEventListener('pointerleave', () => {
+      activeRow?.classList.remove('wi-active');
+      activeRow = null;
+      floating.style.opacity = '0';
+      root.style.backgroundColor = '';
+      root.style.color = '';
+      rows.forEach(r => { r.style.opacity = '1'; });
+      for (const d of rowData) {
+        for (const ch of d.chars) ch.style.transform = 'none';
+        d.numEl.style.transform = ''; d.enEl.style.transform = '';
+      }
+    });
+
+    const update = () => {
+      let found: HTMLAnchorElement | null = null;
+      // foundData reserved for future use
+
+      for (const d of rowData) {
+        const rect = d.row.getBoundingClientRect();
+        if (px >= rect.left && px <= rect.right && py >= rect.top && py <= rect.bottom) {
+          found = d.row; break;
+        }
+      }
+
+      // Update active state
+      if (found !== activeRow) {
+        if (activeRow) activeRow.classList.remove('wi-active');
+        activeRow = found;
+        if (activeRow) activeRow.classList.add('wi-active');
+
+        // Dim non-active rows
+        for (const d of rowData) {
+          d.row.style.opacity = activeRow && d.row !== activeRow ? '0.25' : '1';
+        }
+
+        // Background color
+        if (activeRow) {
+          const bg = activeRow.getAttribute('data-bg') || '#F7F7F5';
+          root.style.backgroundColor = bg;
+          if (bg === '#101418' || bg === '#1A1A2E') root.style.color = '#F4F4F2';
+          else root.style.color = '';
+        } else {
+          root.style.backgroundColor = '';
+          root.style.color = '';
+        }
+      }
+
+      // Floating keyword
+      if (activeRow) {
+        const kw = activeRow.getAttribute('data-keyword') || '';
+        floating.textContent = kw;
+        floating.style.left = px + 'px';
+        floating.style.top = (py - 30) + 'px';
+        floating.style.opacity = '0.07';
+      } else {
+        floating.style.opacity = '0';
+      }
+
+      // Wave chars in active row
+      for (const d of rowData) {
+        if (d.row === activeRow) {
+          for (const ch of d.chars) {
+            const r = ch.getBoundingClientRect();
+            const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+            const dx = px - cx, dy = py - cy;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 160) {
+              const s = (1 - dist / 160), s2 = s * s;
+              const angle = Math.atan2(dy, dx);
+              ch.style.transform = `translate(${Math.cos(angle) * 8 * s2}px, ${Math.sin(angle) * 10 * s2}px) rotate(${Math.sin(angle*2) * 4 * s2}deg)`;
+            } else { ch.style.transform = 'none'; }
+          }
+          // Number magnet
+          const nr = d.numEl.getBoundingClientRect();
+          const ncx = nr.left + nr.width / 2, ncy = nr.top + nr.height / 2;
+          const ndx = px - ncx, ndy = py - ncy;
+          const nd = Math.sqrt(ndx * ndx + ndy * ndy);
+          if (nd < 140) {
+            const s = 1 - nd / 140;
+            d.numEl.style.transform = `translate(${ndx/nd * 10 * s}px, ${ndy/nd * 10 * s}px)`;
+          } else { d.numEl.style.transform = ''; }
+          // EN opposite
+          const er = d.enEl.getBoundingClientRect();
+          const ecx = er.left + er.width / 2, ecy = er.top + er.height / 2;
+          const edx = px - ecx, edy = py - ecy;
+          const ed = Math.sqrt(edx * edx + edy * edy);
+          if (ed < 130) {
+            const s = 1 - ed / 130;
+            d.enEl.style.transform = `translate(${-edx/ed * 7 * s}px, ${-edy/ed * 7 * s}px)`;
+          } else { d.enEl.style.transform = ''; }
+        } else {
+          for (const ch of d.chars) ch.style.transform = 'none';
+          d.numEl.style.transform = ''; d.enEl.style.transform = '';
+        }
+      }
+    };
+    addToLoop(update);
+    startLoop();
+
+    // Scroll velocity skew on rows
+    registerMotion('scrollSkew', {
+      init: () => {},
+      destroy: initScrollVelocity(
+        Array.from(rows).map(el => ({ el, maxSkew: 3 }))
+      ),
+    });
+
+    // Custom cursor
+    registerMotion('cursor', { init: initCustomCursor, destroy: () => {} });
+
+    // Page transitions from work rows
+    registerMotion('transitions', {
+      init: () => {},
+      destroy: initPageTransitions({
+        links: rows,
+        getTransitionText: (link) => link.getAttribute('data-keyword') || '',
+        overlayColor: '#2A1FCC',
+      }),
+    });
+  }
+</script>

@@ -1,0 +1,250 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import { getContent } from '../../content/i18n';
+
+const t = getContent('ko');
+---
+
+<BaseLayout title={`${t.contact.title} · ${t.metaTitle}`} langAttr={t.langAttr} description="함께 새로운 것을 만들어봐요." canonical="https://portfolio.hanyue-room.design/ko/contact/" alternateHref="https://portfolio.hanyue-room.design/zh/contact/" alternateLang="zh-CN">
+  <Header locale="ko" nav={t.nav} currentPath="/ko/contact/" />
+
+  <main class="kc-root">
+  <div class="kc-inner">
+
+    <!-- Label -->
+    <div class="sys kc-label">CONTACT / 연락처</div>
+
+    <!-- Korean main headline (two lines, semantic break) -->
+    <h1 class="kc-headline" aria-label="함께 새로운 것을 만들어봐요">
+      <span class="kc-hl-line" id="kc-hl-l1">함께 새로운 것을</span>
+      <span class="kc-hl-line" id="kc-hl-l2">만들어봐요.</span>
+    </h1>
+
+    <!-- English subtitle (downgraded from primary) -->
+    <p class="kc-sub" id="kc-sub">LET'S BUILD SOMETHING INTELLIGENT.</p>
+
+    <!-- Email + phone + site -->
+    <div class="kc-info" id="kc-info">
+      <a class="kc-mail" href="mailto:zhyyyy0706@gmail.com">
+        <span>zhyyyy0706@gmail.com</span>
+        <span class="kc-mail-arrow" aria-hidden="true">→</span>
+      </a>
+
+      <div class="kc-phones">
+        <span class="kc-phone">+86 150 0717 4513</span>
+        <span class="kc-phone">010-8297-9513</span>
+        <span class="kc-note sys">전화 통화가 필요하신 경우, 먼저 이메일이나 문자로 연락 주시면 감사하겠습니다.</span>
+      </div>
+
+      <a class="kc-site sys" href="https://hanyue-room.design" rel="noopener">hanyue-room.design ↗</a>
+    </div>
+
+    <!-- Footer -->
+    <div class="kc-foot">
+      <span>{t.contact.desc}</span>
+      <span>{t.footer.copyright}</span>
+    </div>
+
+  </div>
+</main>
+</BaseLayout>
+
+<style>
+  .kc-root {
+    background: var(--c-contact);
+    color: var(--c-contact-ink);
+    min-height: 100vh; min-height: 100svh;
+    display: flex; align-items: center;
+    overflow: hidden;
+  }
+
+  .kc-inner {
+    width: 100%;
+    padding: calc(var(--space-5) + 3.5rem) var(--pad) var(--space-4);
+  }
+
+  /* ---- Label ---- */
+  .kc-label {
+    color: rgba(244, 244, 242, 0.45);
+    margin-bottom: clamp(2rem, 4vh, 3.5rem);
+  }
+
+  /* ---- Korean headline ---- */
+  .kc-headline {
+    display: flex; flex-direction: column;
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Helvetica Neue", sans-serif;
+    font-size: clamp(4.5rem, 9vw, 10rem);
+    font-weight: 750;
+    line-height: 0.98;
+    letter-spacing: -0.05em;
+    word-break: keep-all;
+    text-transform: none;
+    max-width: 11em;
+  }
+
+  .kc-hl-line {
+    display: block;
+    will-change: transform;
+  }
+
+  /* ---- English subtitle ---- */
+  .kc-sub {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.5vw, 3rem);
+    letter-spacing: -0.025em;
+    word-spacing: 0.08em;
+    line-height: 1;
+    text-transform: uppercase;
+    margin-top: clamp(1.5rem, 3vh, 2.5rem);
+    opacity: 0.9;
+  }
+
+  /* ---- Email + site ---- */
+  .kc-info {
+    margin-top: clamp(3rem, 6vh, 5rem);
+    display: flex; flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .kc-mail {
+    display: inline-flex; align-items: center; gap: var(--space-2);
+    width: fit-content;
+    font-family: var(--font-mono);
+    font-size: clamp(1.4rem, 2.3vw, 2.8rem);
+    padding: 0.3em 0.6em; margin-left: -0.6em;
+    color: var(--c-contact-ink);
+    text-decoration: none;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .kc-mail:hover {
+    background: var(--c-contact-ink);
+    color: var(--c-contact);
+  }
+
+  .kc-mail-arrow {
+    transition: transform 0.2s ease;
+  }
+
+  .kc-mail:hover .kc-mail-arrow {
+    transform: translateX(0.35em);
+  }
+
+  .kc-phones {
+    display: flex; flex-direction: column; gap: 0.3em;
+    margin: var(--space-3) 0 var(--space-2);
+  }
+
+  .kc-phone {
+    font-family: var(--font-mono);
+    font-size: clamp(0.9rem, 1.4vw, 1.2rem);
+    color: rgba(244,244,242,0.5);
+    letter-spacing: 0.04em;
+  }
+
+  .kc-note {
+    margin-top: 0.6em;
+    font-size: var(--text-xs);
+    letter-spacing: 0.03em;
+    opacity: 0.4;
+    max-width: 34em;
+    line-height: 1.5;
+  }
+
+  .kc-site {
+    display: inline-block;
+    width: fit-content;
+    opacity: 0.5;
+    padding-bottom: 2px;
+    border-bottom: 1px solid currentColor;
+    color: var(--c-contact-ink);
+    text-decoration: none;
+  }
+
+  /* ---- Footer ---- */
+  .kc-foot {
+    border-top: 1px solid rgba(244, 244, 242, 0.15);
+    padding-top: var(--space-4);
+    margin-top: var(--space-6);
+    display: flex; justify-content: space-between; flex-wrap: wrap;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    opacity: 0.45;
+  }
+
+  /* ---- Mobile ---- */
+  @media (max-width: 720px) {
+    .kc-inner {
+      padding-top: calc(var(--space-5) + 2.5rem);
+    }
+
+    .kc-headline {
+      font-size: clamp(3.2rem, 15vw, 5rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .kc-sub {
+      font-size: clamp(1rem, 5vw, 1.5rem);
+    }
+
+    .kc-mail {
+      font-size: clamp(1rem, 4.5vw, 1.6rem);
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ── Entrance animation ───────────────────────────────
+  if (!reduced) {
+    const l1 = document.getElementById('kc-hl-l1');
+    const l2 = document.getElementById('kc-hl-l2');
+    const sub = document.getElementById('kc-sub');
+    const info = document.getElementById('kc-info');
+
+    gsap.set(l1, { xPercent: -80, opacity: 0 });
+    gsap.set(l2, { xPercent: 80, opacity: 0 });
+    gsap.set(sub, { y: 30, opacity: 0 });
+    gsap.set(info, { y: 20, opacity: 0 });
+
+    const tl = gsap.timeline({ defaults: { ease: 'power4.out', duration: 1.1 } });
+
+    tl.to(l1, { xPercent: 0, opacity: 1 }, 0)
+      .to(l2, { xPercent: 0, opacity: 1 }, 0.14)
+      .to(sub,  { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out' }, 0.7)
+      .to(info, { y: 0, opacity: 1, duration: 0.6, ease: 'expo.out' }, 0.85);
+  } else {
+    gsap.set(['#kc-hl-l1', '#kc-hl-l2', '#kc-sub', '#kc-info'], { clearProps: 'all' });
+  }
+
+  // ── Mouse-driven light parallax ──────────────────────
+  if (!reduced) {
+    const qL1 = gsap.quickTo('#kc-hl-l1', 'x', { duration: 0.5, ease: 'power2.out' });
+    const qL2 = gsap.quickTo('#kc-hl-l2', 'x', { duration: 0.5, ease: 'power2.out' });
+
+    const onMove = (e: PointerEvent) => {
+      const nx = (e.clientX / window.innerWidth - 0.5) * 2;
+      qL1(nx * 24);
+      qL2(nx * -24);
+    };
+
+    const onLeave = () => {
+      qL1(0);
+      qL2(0);
+    };
+
+    document.addEventListener('pointermove', onMove, { passive: true });
+    document.addEventListener('pointerleave', onLeave);
+
+    document.addEventListener('astro:before-swap', () => {
+      document.removeEventListener('pointermove', onMove);
+      document.removeEventListener('pointerleave', onLeave);
+      gsap.set(['#kc-hl-l1', '#kc-hl-l2'], { x: 0 });
+    }, { once: true });
+  }
+</script>

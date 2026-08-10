@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageShell from '../../components/PageShell.astro';
+import { getContent } from '../../content/i18n';
+
+const t = getContent('zh');
+---
+
+<BaseLayout title={`${t.about.title} · ${t.metaTitle}`} langAttr={t.langAttr} description={t.about.statement} canonical="https://portfolio.hanyue-room.design/zh/about/" alternateHref="https://portfolio.hanyue-room.design/ko/about/" alternateLang="ko">
+  <PageShell locale="zh" t={t} currentPath="/zh/about/" pageTitle={t.about.title} pageEn={t.about.label}>
+
+    <div class="seg-about">
+      {t.about.statement && <p class="seg-about-statement">{t.about.statement}</p>}
+
+      <div class="seg-about-intro">
+        <p class="seg-about-body">{t.about.intro}</p>
+      </div>
+
+      {t.about.focus && t.about.focus.length > 0 && (
+        <div class="seg-about-focus">
+          <h3 class="seg-about-h sys">{t.about.focusLabel}</h3>
+          <ul class="seg-about-focus-list">
+            {t.about.focus.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      )}
+
+      <div class="seg-about-grid">
+        <section class="seg-about-block" data-reveal>
+          <h3 class="seg-about-h sys">{t.about.educationTitle}</h3>
+          {t.about.education.map((edu) => (
+            <div class="seg-about-row">
+              <strong>{edu.school}</strong><br />{edu.major}<br /><span class="seg-mono">{edu.date}</span>
+            </div>
+          ))}
+        </section>
+
+        <section class="seg-about-block" data-reveal>
+          <h3 class="seg-about-h sys">{t.about.languageTitle}</h3>
+          {t.about.languages.map((lang) => <div class="seg-about-row">{lang}</div>)}
+        </section>
+
+        <section class="seg-about-block" data-reveal>
+          <h3 class="seg-about-h sys">{t.about.workTitle}</h3>
+          {t.about.work.map((job) => (
+            <div class="seg-about-item">
+              <div class="seg-about-row">
+                <strong>{job.company}</strong>
+                <br /><span class="seg-mono">{job.role}</span>
+              </div>
+              <div class="seg-about-desc">{job.desc}</div>
+            </div>
+          ))}
+        </section>
+      </div>
+    </div>
+
+  </PageShell>
+</BaseLayout>
+
+<style>
+  .seg-about-statement {
+    font-size: clamp(1.8rem, 3.8vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1.3;
+    max-width: 20em;
+    margin-bottom: var(--space-4);
+    word-break: keep-all;
+  }
+
+  .seg-about-intro {
+    max-width: 42em;
+    margin-bottom: var(--space-4);
+  }
+
+  .seg-about-body {
+    font-size: var(--text-base);
+    line-height: 1.85;
+    color: rgba(20,19,23,0.75);
+  }
+
+  .seg-about-focus {
+    border-top: 1px solid rgba(20,19,23,0.12);
+    border-bottom: 1px solid rgba(20,19,23,0.12);
+    padding: var(--space-3) 0;
+    margin-bottom: var(--space-4);
+  }
+
+  .seg-about-focus-list {
+    display: flex; flex-wrap: wrap; gap: 0.5em 1.2em;
+    margin-top: var(--space-1);
+  }
+
+  .seg-about-focus-list li {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: 0.04em;
+    color: var(--c-hero);
+    position: relative;
+  }
+
+  .seg-about-focus-list li::before {
+    content: '·';
+    margin-right: 0.5em;
+    opacity: 0.4;
+  }
+
+  .seg-about-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-4);
+  }
+
+  .seg-about-h {
+    opacity: 0.5;
+    margin-bottom: var(--space-2);
+  }
+
+  .seg-about-block {
+    border-left: 2px solid rgba(20,19,23,0.1);
+    padding-left: var(--space-3);
+  }
+
+  .seg-about-row {
+    font-size: var(--text-sm);
+    line-height: 1.7;
+    margin-bottom: var(--space-1);
+  }
+
+  .seg-about-item {
+    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid rgba(20,19,23,0.08);
+  }
+  .seg-about-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+  .seg-about-desc {
+    font-size: var(--text-sm);
+    line-height: 1.7;
+    margin-top: var(--space-1);
+    color: rgba(20,19,23,0.65);
+  }
+
+  .seg-mono {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    opacity: 0.55;
+  }
+
+  @media (max-width: 720px) {
+    .seg-about-grid { grid-template-columns: 1fr; }
+    .seg-about-statement { font-size: clamp(1.4rem, 7vw, 2rem); }
+  }
+</style>

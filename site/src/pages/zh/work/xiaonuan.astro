@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CaseStudyLayout from '../../../components/CaseStudyLayout.astro';
+import { getContent } from '../../../content/i18n';
+import { getProjectDetail } from '../../../content/projects';
+
+const t = getContent('zh');
+const project = getProjectDetail('xiaonuan', 'zh');
+---
+
+<BaseLayout title={`${project.name} · ${t.metaTitle}`} langAttr={t.langAttr} description={project.subtitle} canonical="https://portfolio.hanyue-room.design/zh/work/xiaonuan/" alternateHref="https://portfolio.hanyue-room.design/ko/work/xiaonuan/" alternateLang="ko">
+  <CaseStudyLayout project={project} nav={t.nav} locale="zh" />
+</BaseLayout>

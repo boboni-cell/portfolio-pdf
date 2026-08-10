@@ -1,0 +1,38 @@
+---
+// Root page: language redirect only.
+// Reads localStorage preference, falls back to browser language, then zh.
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Zhang Hanyue · Portfolio</title>
+    <meta http-equiv="refresh" content="3;url=/zh/" />
+    <script is:inline>
+      (function () {
+        var lang = 'zh';
+        try {
+          var saved = localStorage.getItem('preferred-lang');
+          if (saved === 'zh' || saved === 'ko') {
+            lang = saved;
+          } else if (navigator.language && navigator.language.toLowerCase().indexOf('ko') === 0) {
+            lang = 'ko';
+          }
+        } catch (e) {
+          if (navigator.language && navigator.language.toLowerCase().indexOf('ko') === 0) {
+            lang = 'ko';
+          }
+        }
+        window.location.replace('/' + lang + '/');
+      })();
+    </script>
+  </head>
+  <body style="background:#0B0B0D;color:#F4F4F2;font-family:sans-serif;display:flex;min-height:100vh;align-items:center;justify-content:center;">
+    <p>
+      Redirecting… <a style="color:#7C6CFF;" href="/zh/">中文</a> ·
+      <a style="color:#7C6CFF;" href="/ko/">한국어</a>
+    </p>
+  </body>
+</html>

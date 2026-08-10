@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getContent } from '../../content/i18n';
+
+const t = getContent('zh');
+---
+
+<BaseLayout title={`404 · ${t.metaTitle}`} langAttr="zh-CN" description="页面未找到">
+  <main style="min-height:100vh;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#0A0A0B;color:#F4F4F2;font-family:sans-serif;gap:1.5rem;padding:2rem;text-align:center;">
+    <div style="font-family:Anton,sans-serif;font-size:clamp(4rem,15vw,12rem);line-height:0.9;text-transform:uppercase;">404</div>
+    <p style="font-size:1.25rem;max-width:20em;opacity:0.75;">页面未找到——但也许你想看看我的作品？</p>
+    <a href="/zh/" style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:0.875rem;letter-spacing:0.12em;text-transform:uppercase;color:#0A0A0B;background:#F4F4F2;padding:1em 2em;text-decoration:none;">返回首页</a>
+    <div style="margin-top:2rem;display:flex;gap:1rem;">
+      <a href="/zh/work/xiaonuan/" style="color:#7C6CFF;text-decoration:none;">小暖</a>
+      <a href="/zh/work/comic-studio/" style="color:#37F4E4;text-decoration:none;">AI 漫剧</a>
+    </div>
+  </main>
+</BaseLayout>

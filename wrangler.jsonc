@@ -3,7 +3,7 @@
   "account_id": "50b0f6d41fb1638bec484ffd6e9d49ca",
   "compatibility_date": "2026-06-12",
   "assets": {
-    "directory": "./dist",
+    "directory": "./site/dist",
     "not_found_handling": "single-page-application"
   },
   "observability": {

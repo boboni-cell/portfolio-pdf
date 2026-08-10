@@ -1,0 +1,281 @@
+---
+interface Props { locale: 'zh' | 'ko'; }
+
+const { locale } = Astro.props;
+const copy = locale === 'zh'
+  ? { viewer: '全屏图片查看器', out: '缩小', in: '放大', reset: '复位', close: '关闭', prev: '上一张', next: '下一张' }
+  : { viewer: '전체 화면 이미지 뷰어', out: '축소', in: '확대', reset: '초기화', close: '닫기', prev: '이전 이미지', next: '다음 이미지' };
+---
+
+<dialog class="fv-dialog" id="fv-dialog" aria-label={copy.viewer}>
+  <div class="fv-toolbar">
+    <span class="fv-counter sys" id="fv-counter">1 / 1</span>
+    <span class="fv-zoom-level sys" id="fv-zoom-label">1x</span>
+    <button class="fv-btn" id="fv-zoom-out" type="button" aria-label={copy.out}>−</button>
+    <button class="fv-btn" id="fv-zoom-in" type="button" aria-label={copy.in}>+</button>
+    <button class="fv-btn" id="fv-reset" type="button" aria-label={copy.reset}>1:1</button>
+    <button class="fv-btn fv-close" id="fv-close" type="button" aria-label={copy.close}>ESC</button>
+  </div>
+  <button class="fv-nav fv-prev" id="fv-prev" type="button" aria-label={copy.prev}>‹</button>
+  <button class="fv-nav fv-next" id="fv-next" type="button" aria-label={copy.next}>›</button>
+  <div class="fv-stage" id="fv-stage">
+    <img class="fv-image" id="fv-image" src="" alt="" draggable="false" />
+  </div>
+  <div class="fv-caption" id="fv-caption"></div>
+</dialog>
+
+<style>
+  .fv-dialog:not([open]) { display: none; }
+
+  .fv-dialog[open] {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgba(8, 8, 10, 0.97);
+    color: var(--paper);
+    animation: fv-in 220ms ease-out;
+  }
+
+  .fv-dialog::backdrop { background: rgba(8, 8, 10, 0.82); }
+
+  .fv-toolbar {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+  }
+
+  .fv-counter { margin-right: 0.65rem; color: rgba(244,244,242,0.65); font-size: var(--text-xs); }
+  .fv-zoom-level { color: rgba(244,244,242,0.42); font-size: var(--text-xs); }
+
+  .fv-btn,
+  .fv-nav {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(244,244,242,0.2);
+    background: rgba(244,244,242,0.08);
+    color: var(--paper);
+    cursor: pointer;
+    transition: background 180ms ease, opacity 180ms ease;
+  }
+
+  .fv-btn { min-width: 44px; min-height: 44px; padding: 0.4em 0.7em; font-family: var(--font-mono); font-size: var(--text-xs); }
+  .fv-btn:hover,
+  .fv-nav:hover { background: rgba(244,244,242,0.18); }
+  .fv-btn:focus-visible,
+  .fv-nav:focus-visible { outline: 2px solid var(--paper); outline-offset: 2px; }
+
+  .fv-nav {
+    position: fixed;
+    top: 50%;
+    z-index: 10;
+    width: 52px;
+    height: 52px;
+    font-size: 2.5rem;
+    transform: translateY(-50%);
+  }
+  .fv-nav:disabled { opacity: 0.18; cursor: default; }
+  .fv-prev { left: 1rem; }
+  .fv-next { right: 1rem; }
+
+  .fv-stage {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 4.5rem;
+    cursor: grab;
+    touch-action: none;
+  }
+  .fv-stage.grabbing { cursor: grabbing; }
+
+  .fv-image {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    user-select: none;
+    will-change: transform;
+    transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .fv-caption {
+    position: fixed;
+    bottom: 1.25rem;
+    left: 50%;
+    max-width: min(720px, 70vw);
+    color: rgba(244,244,242,0.58);
+    font-size: var(--text-xs);
+    line-height: 1.5;
+    text-align: center;
+    transform: translateX(-50%);
+  }
+
+  @keyframes fv-in { from { opacity: 0; } to { opacity: 1; } }
+
+  @media (max-width: 720px) {
+    .fv-toolbar { top: 0.5rem; right: 0.5rem; gap: 0.25rem; }
+    .fv-counter { margin-right: 0.25rem; }
+    .fv-zoom-level { display: none; }
+    .fv-btn { min-width: 40px; min-height: 40px; padding: 0.25rem 0.45rem; }
+    .fv-stage { padding: 3.5rem 0.5rem 4rem; }
+    .fv-nav { top: auto; bottom: 0.6rem; width: 44px; height: 44px; font-size: 2rem; transform: none; }
+    .fv-prev { left: 0.6rem; }
+    .fv-next { right: 0.6rem; }
+    .fv-caption { bottom: 1.2rem; max-width: 58vw; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fv-dialog[open] { animation: none; }
+    .fv-image { transition: none; }
+  }
+</style>
+
+<script>
+  interface FvImage { trigger: HTMLElement; src: string; alt: string; caption: string; }
+
+  function initFullscreenViewer() {
+    const dialog = document.getElementById('fv-dialog') as HTMLDialogElement | null;
+    if (!dialog || dialog.dataset.viewerReady === 'true') return;
+    dialog.dataset.viewerReady = 'true';
+
+    const image = dialog.querySelector<HTMLImageElement>('#fv-image');
+    const stage = dialog.querySelector<HTMLElement>('#fv-stage');
+    const counter = dialog.querySelector<HTMLElement>('#fv-counter');
+    const caption = dialog.querySelector<HTMLElement>('#fv-caption');
+    const zoomLabel = dialog.querySelector<HTMLElement>('#fv-zoom-label');
+    const previous = dialog.querySelector<HTMLButtonElement>('#fv-prev');
+    const next = dialog.querySelector<HTMLButtonElement>('#fv-next');
+    if (!image || !stage || !counter || !caption || !zoomLabel || !previous || !next) return;
+
+    let images: FvImage[] = [];
+    let currentIndex = 0;
+    let zoom = 1;
+    let panX = 0;
+    let panY = 0;
+    let dragging = false;
+    let dragStartX = 0;
+    let dragStartY = 0;
+    let startPanX = 0;
+    let startPanY = 0;
+    let lastFocus: HTMLElement | null = null;
+
+    const collectImages = (): FvImage[] => Array.from(document.querySelectorAll<HTMLElement>('[data-fv-src]')).map((trigger) => ({
+      trigger,
+      src: trigger.dataset.fvSrc || '',
+      alt: trigger.dataset.fvAlt || '',
+      caption: trigger.dataset.fvCaption || '',
+    }));
+
+    const applyZoom = () => {
+      image.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
+      zoomLabel.textContent = `${zoom.toFixed(1).replace(/\.0$/, '')}x`;
+    };
+
+    const resetZoom = () => {
+      zoom = 1;
+      panX = 0;
+      panY = 0;
+      applyZoom();
+    };
+
+    const update = () => {
+      const item = images[currentIndex];
+      if (!item) return;
+      image.src = item.src;
+      image.alt = item.alt;
+      counter.textContent = `${currentIndex + 1} / ${images.length}`;
+      caption.textContent = item.caption;
+      previous.disabled = currentIndex === 0;
+      next.disabled = currentIndex === images.length - 1;
+      resetZoom();
+    };
+
+    const open = (trigger: HTMLElement) => {
+      images = collectImages();
+      currentIndex = Math.max(0, images.findIndex((item) => item.trigger === trigger));
+      lastFocus = document.activeElement as HTMLElement;
+      update();
+      dialog.showModal();
+      document.documentElement.style.overflow = 'hidden';
+      dialog.querySelector<HTMLButtonElement>('#fv-close')?.focus();
+    };
+
+    const close = () => {
+      if (!dialog.open) return;
+      dialog.close();
+      document.documentElement.style.overflow = '';
+      lastFocus?.focus();
+    };
+
+    document.querySelectorAll<HTMLElement>('[data-fv-src]').forEach((trigger) => {
+      trigger.addEventListener('click', () => open(trigger));
+    });
+
+    dialog.querySelector('#fv-close')?.addEventListener('click', close);
+    dialog.querySelector('#fv-zoom-in')?.addEventListener('click', () => { zoom = Math.min(zoom + 0.5, 3); applyZoom(); });
+    dialog.querySelector('#fv-zoom-out')?.addEventListener('click', () => { zoom = Math.max(zoom - 0.5, 0.5); applyZoom(); });
+    dialog.querySelector('#fv-reset')?.addEventListener('click', resetZoom);
+    previous.addEventListener('click', () => { if (currentIndex > 0) { currentIndex -= 1; update(); } });
+    next.addEventListener('click', () => { if (currentIndex < images.length - 1) { currentIndex += 1; update(); } });
+
+    dialog.addEventListener('cancel', (event) => { event.preventDefault(); close(); });
+    dialog.addEventListener('dblclick', (event) => {
+      if (event.target === image || event.target === stage) {
+        zoom = zoom === 1 ? 2 : 1;
+        panX = 0;
+        panY = 0;
+        applyZoom();
+      }
+    });
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft' && currentIndex > 0) { currentIndex -= 1; update(); }
+      if (event.key === 'ArrowRight' && currentIndex < images.length - 1) { currentIndex += 1; update(); }
+      if (event.key === '0' || event.key === '1') resetZoom();
+    });
+
+    stage.addEventListener('pointerdown', (event) => {
+      if (zoom <= 1) return;
+      dragging = true;
+      stage.classList.add('grabbing');
+      stage.setPointerCapture(event.pointerId);
+      dragStartX = event.clientX;
+      dragStartY = event.clientY;
+      startPanX = panX;
+      startPanY = panY;
+    });
+    stage.addEventListener('pointermove', (event) => {
+      if (!dragging) return;
+      panX = startPanX + event.clientX - dragStartX;
+      panY = startPanY + event.clientY - dragStartY;
+      applyZoom();
+    });
+    stage.addEventListener('pointerup', (event) => {
+      dragging = false;
+      stage.classList.remove('grabbing');
+      if (stage.hasPointerCapture(event.pointerId)) stage.releasePointerCapture(event.pointerId);
+    });
+  }
+
+  initFullscreenViewer();
+  document.addEventListener('astro:page-load', initFullscreenViewer);
+</script>

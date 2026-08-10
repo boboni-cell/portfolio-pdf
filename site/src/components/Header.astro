@@ -1,0 +1,237 @@
+---
+import type { Locale, SiteContent } from '../content/i18n';
+import LanguageSwitch from './LanguageSwitch.astro';
+
+interface Props {
+  locale: Locale;
+  nav: SiteContent['nav'];
+  currentPath?: string;
+}
+
+const { locale, nav, currentPath } = Astro.props;
+---
+
+<header class="site-header">
+  <a class="header-name" href={`/${locale}/`}>
+    <span class="header-name-en">ZHANG HANYUE</span>
+  </a>
+  <nav class="header-nav" aria-label="Main">
+    <a href={`/${locale}/work/`}>{nav.work}</a>
+    <a href={`/${locale}/capability/`}>{nav.capability}</a>
+    <a href={`/${locale}/about/`}>{nav.about}</a>
+    <a href={`/${locale}/contact/`}>{nav.contact}</a>
+  </nav>
+  <LanguageSwitch locale={locale} currentPath={currentPath} />
+  <button
+    class="menu-btn"
+    type="button"
+    aria-expanded="false"
+    aria-controls="mobile-nav"
+  >
+    Menu
+  </button>
+</header>
+
+<div class="mobile-nav" id="mobile-nav" hidden>
+  <nav class="mobile-nav-links" aria-label="Mobile">
+    <a href={`/${locale}/work/`}>{nav.work}</a>
+    <a href={`/${locale}/capability/`}>{nav.capability}</a>
+    <a href={`/${locale}/about/`}>{nav.about}</a>
+    <a href={`/${locale}/contact/`}>{nav.contact}</a>
+  </nav>
+  <div class="mobile-nav-foot sys">ZHANG HANYUE — AI Creative Product Designer</div>
+</div>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('.menu-btn');
+  const panel = document.getElementById('mobile-nav');
+
+  if (btn && panel) {
+    const links = panel.querySelectorAll<HTMLAnchorElement>('a');
+
+    const open = () => {
+      panel.hidden = false;
+      btn.setAttribute('aria-expanded', 'true');
+      btn.textContent = 'Close';
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+      links[0]?.focus();
+    };
+
+    const close = () => {
+      panel.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = 'Menu';
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      btn.focus();
+    };
+
+    const isOpen = () => btn.getAttribute('aria-expanded') === 'true';
+
+    btn.addEventListener('click', () => (isOpen() ? close() : open()));
+
+    links.forEach((a) =>
+      a.addEventListener('click', () => {
+        panel.hidden = true;
+        btn.setAttribute('aria-expanded', 'false');
+        btn.textContent = 'Menu';
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+      })
+    );
+
+    document.addEventListener('keydown', (e) => {
+      if (!isOpen()) return;
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        close();
+        return;
+      }
+      if (e.key === 'Tab') {
+        const items = [btn, ...Array.from(links)];
+        const idx = items.indexOf(document.activeElement as HTMLButtonElement & HTMLAnchorElement);
+        if (e.shiftKey && (idx <= 0)) {
+          e.preventDefault();
+          items[items.length - 1].focus();
+        } else if (!e.shiftKey && idx === items.length - 1) {
+          e.preventDefault();
+          items[0].focus();
+        }
+      }
+    });
+  }
+</script>
+
+<style>
+  .site-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2) var(--pad);
+    color: var(--paper);
+    mix-blend-mode: difference;
+  }
+
+  .header-name {
+    line-height: 1.2;
+  }
+
+  .header-name-en {
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .header-nav {
+    display: flex;
+    gap: var(--space-3);
+    margin-left: auto;
+    align-items: center;
+  }
+
+  .header-nav a {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    white-space: nowrap;
+    position: relative;
+  }
+
+  .header-nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -3px;
+    width: 100%;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  .header-nav a:hover::after {
+    transform: scaleX(1);
+  }
+
+  .menu-btn {
+    display: none;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: inherit;
+    background: none;
+    border: 1px solid currentColor;
+    padding: 0.35em 0.9em;
+    cursor: pointer;
+  }
+
+  .mobile-nav {
+    position: fixed;
+    inset: 0;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-4);
+    padding: calc(var(--space-5) + 2rem) var(--pad) var(--space-4);
+    background: var(--c-hero-deep);
+    color: var(--paper);
+  }
+
+  .mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .mobile-nav-links a {
+    font-size: clamp(2.6rem, 11vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.15;
+    letter-spacing: 0.01em;
+    width: fit-content;
+    border-bottom: 3px solid transparent;
+  }
+
+  .mobile-nav-links a:active {
+    border-bottom-color: var(--paper);
+  }
+
+  .mobile-nav-foot {
+    margin-top: auto;
+    opacity: 0.65;
+  }
+
+  .mobile-nav[hidden] {
+    display: none;
+  }
+
+  @media (max-width: 720px) {
+    .header-nav {
+      display: none;
+    }
+
+    .site-header .lang-switch {
+      margin-left: auto;
+    }
+
+    .menu-btn {
+      display: block;
+    }
+  }
+
+  @media (min-width: 721px) {
+    .mobile-nav {
+      display: none;
+    }
+  }
+</style>

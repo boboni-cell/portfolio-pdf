@@ -1,0 +1,13 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import CaseStudyLayout from '../../../components/CaseStudyLayout.astro';
+import { getContent } from '../../../content/i18n';
+import { getProjectDetail } from '../../../content/projects';
+
+const t = getContent('ko');
+const project = getProjectDetail('comic-studio', 'ko');
+---
+
+<BaseLayout title={`${project.name} · ${t.metaTitle}`} langAttr={t.langAttr} description={project.subtitle} canonical="https://portfolio.hanyue-room.design/ko/work/comic-studio/" alternateHref="https://portfolio.hanyue-room.design/zh/work/comic-studio/" alternateLang="zh-CN">
+  <CaseStudyLayout project={project} nav={t.nav} locale="ko" />
+</BaseLayout>
