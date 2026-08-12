@@ -48,7 +48,11 @@ function buildMediaImages(s: typeof project.sections[0]) {
 
 <Header locale={locale} nav={nav} currentPath={`/${locale}/work/${project.slug}/`} />
 
-<main class:list={['cs-root', { 'cs-phone-project': project.mediaPresentation === 'phone', 'cs-comic-project': project.slug === 'comic-studio' }]} id="cs-root">
+<main class:list={['cs-root', {
+  'cs-phone-project': project.mediaPresentation === 'phone',
+  'cs-comic-project': project.slug === 'comic-studio',
+  'cs-canvas-project': project.slug === 'ai-infinite-canvas',
+}]} id="cs-root">
 
   <!-- Sticky section sidebar -->
   <nav class="cs-sidenav" aria-label="Section navigation">
@@ -560,6 +564,51 @@ function buildMediaImages(s: typeof project.sections[0]) {
     overflow-wrap: anywhere;
   }
 
+  /* AI Infinite Canvas: keep long bilingual headings inside the editorial grid */
+  .cs-canvas-project .cs-section-inner {
+    max-width: 1180px;
+  }
+
+  .cs-canvas-project .cs-layout-b {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.75rem;
+  }
+
+  .cs-canvas-project .cs-s-title {
+    max-width: 18em;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+    text-transform: none;
+    font-size: clamp(2rem, 3.6vw, 3.35rem);
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+  }
+
+  .cs-canvas-project .cs-s-body {
+    max-width: 42em;
+    font-size: clamp(1rem, 1.25vw, 1.16rem);
+    line-height: 1.8;
+  }
+
+  .cs-canvas-project .cs-lb-right {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(1.25rem, 2.5vw, 2rem);
+  }
+
+  .cs-canvas-project .cs-lb-right .cs-item {
+    min-width: 0;
+    padding: 1.25rem 0 0;
+    border-top: 1px solid rgba(20,19,23,0.16);
+    border-left: 0;
+  }
+
+  .cs-canvas-project .cs-item-title,
+  .cs-canvas-project .cs-item-body {
+    overflow-wrap: anywhere;
+  }
+
   .cs-comic-project #flow .cs-cards {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
@@ -614,6 +663,16 @@ function buildMediaImages(s: typeof project.sections[0]) {
   }
 
   @media (max-width: 720px) {
+    .cs-canvas-project .cs-s-title {
+      max-width: 100%;
+      font-size: clamp(1.9rem, 9vw, 2.55rem);
+      line-height: 1.16;
+    }
+
+    .cs-canvas-project .cs-lb-right {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
     .cs-comic-project .cs-s-title {
       max-width: 100%;
       font-size: clamp(1.9rem, 9vw, 2.55rem);
