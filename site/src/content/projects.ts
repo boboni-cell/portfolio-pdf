@@ -68,20 +68,20 @@ export interface ProjectDetail {
 }
 
 /** All 5 slug → name map for cross-referencing */
-export const SLUGS: ProjectSlug[] = ['xiaonuan', 'comic-studio', 'ai-infinite-canvas', 'milk-ribbon', 'commercial-video'];
+export const SLUGS: ProjectSlug[] = ['ai-infinite-canvas', 'comic-studio', 'xiaonuan', 'milk-ribbon', 'commercial-video'];
 
 /* ================================================================
-   01 — XIAONUAN
+   03 — XIAONUAN
    ================================================================ */
 
 const xiaonuanZh: ProjectDetail = {
-  slug: 'xiaonuan', num: '01',
+  slug: 'xiaonuan', num: '03',
   name: '小暖', nameEn: 'AI Life Companion with Long-Term Memory',
   subtitle: '在自然聊天中理解、记录并陪伴用户生活的多模态 AI 伙伴',
   tags: ['情感陪伴', '长期记忆', '主动记录', '语音与图片', '跨币种记账', '生活信息查询'],
   meta: '2026.01 – 至今 · 独立产品 · 中文 Beta / 多语版本完善中',
   heroImage: '/media/xn-home-hero-760.webp', heroImageAlt: '',
-  nextProject: { slug: 'comic-studio', name: 'AI 漫剧制作系统' },
+  nextProject: { slug: 'milk-ribbon', name: 'Milk & Ribbon 品牌设计' },
   mediaPresentation: 'phone',
   sections: [
     { id: 'overview', label: 'Overview', title: '记住生活的 AI 陪伴者', body: '小暖的目标不是替用户掌控一切，而是成为一个可以随时询问、愿意认真倾听，并会替用户记住生活细节的 AI 伙伴。用户可以和它聊今天发生的事、花了多少钱、接下来要做什么，也可以直接询问日常生活中的问题。小暖在回答的同时理解语境，把支出、收入、日程、日记和生活习惯主动整理到对应模块，让记录成为聊天自然产生的结果。', video: '/media/ui-xiaonuan.mp4', videoPoster: '/media/xn-home-hero-760.webp', items: [{ label: '什么都可以问', body: '从日常安排、消费换算到附近生活服务，用户不必先判断问题属于哪个功能，只需要像和熟悉的人聊天一样开口。' }, { label: '聊天之后自动完成记录', body: '小暖识别金额、币种、时间、事件和情绪，在不打断对话的情况下生成账目、日程或日记，用户随后可以查看和修正。' }, { label: '陪伴比“万能”更重要', body: '产品不追求炫技式的超级 Agent，而是用长期记忆、稳定语气和持续理解建立“有人记得我”的情感体验。' }] },
@@ -110,7 +110,7 @@ const comicStudioZh: ProjectDetail = {
   tags: ['剧本输入', '镜头拆解', '角色库', '场景库', '多模型生成', 'API 日志'],
   meta: '2026.05 – 至今 · 个人项目',
   heroImage: '/media/cw-flow-03-900.webp', heroImageAlt: '',
-  nextProject: { slug: 'ai-infinite-canvas', name: 'AI 无限画布' },
+  nextProject: { slug: 'xiaonuan', name: '小暖' },
   liveDemo: { url: 'https://studio.hanyue-room.design', labelZh: '线上访问产品', labelKo: '제품 방문하기', productLabelZh: '前往 Studio', productLabelKo: 'Studio 열기', inviteCodes: ['50F2858A', '3B492D37', '89795156', '20F0D359'], inviteNoteZh: '目前仅提供中文版本，使用邀请码注册', inviteNoteKo: '현재 중국어 버전만 제공, 초대 코드로 가입' },
   sections: [
     { id: 'problems', label: 'Problem Space', title: '生成一张图不难，难的是稳定交付一集漫剧', body: '单个模型可以快速产出图片或视频，但真实制作需要把剧本、角色、场景、镜头、模型调用和成片版本持续连接起来。这个项目解决的不是“能不能生成”，而是“能不能重复、可控地完成整条生产链”。', items: [{ title: '流程被工具切碎', body: '剧本、分镜、角色设计、场景生成和视频制作散落在不同工具中，复制内容和来回导入不断制造信息丢失与版本混乱。' }, { title: '角色与画面难以保持一致', body: '模型每次生成都可能改变角色脸型、服装和场景风格。没有统一资产基准，就无法让观众相信连续镜头发生在同一个故事里。' }, { title: '生成成本无法复盘', body: '不同模型的参数、速度和计费方式各不相同。缺少调用记录时，很难知道哪次生成有效、哪个环节最浪费额度。' }] },
@@ -127,17 +127,17 @@ const comicStudioZh: ProjectDetail = {
 };
 
 /* ================================================================
-   03 — AI INFINITE CANVAS (placeholder — real content TBD)
+   01 — AI INFINITE CANVAS (placeholder — real content TBD)
    ================================================================ */
 
 const infiniteCanvasZh: ProjectDetail = {
-  slug: 'ai-infinite-canvas', num: '03',
+  slug: 'ai-infinite-canvas', num: '01',
   name: 'AI 无限画布', nameEn: 'AI Infinite Canvas Workflow Platform',
   subtitle: '面向电商、运营与视觉创作者的节点式 AI 内容生产 SaaS',
   tags: ['SaaS 产品', '工作流设计', '批量生成', 'BYOK API', '三语国际化', 'Cloudflare 部署'],
   meta: '2026 · 独立 SaaS 产品 · 已部署上线 / 持续迭代',
   heroImage: '/media/xn-home-hero-760.webp', heroImageAlt: '',
-  nextProject: { slug: 'milk-ribbon', name: 'Milk & Ribbon 品牌设计' },
+  nextProject: { slug: 'comic-studio', name: 'AI 漫剧制作系统' },
   liveDemo: { url: 'https://image.hanyue-room.design/', labelZh: '体验交互演示', labelKo: '인터랙티브 데모', productLabelZh: '访问线上产品', productLabelKo: '라이브 제품 보기' },
   sections: [
     { id: 'overview', label: 'Overview', title: '从生成工具到内容生产 SaaS', body: 'AI 无限画布是由我独立完成产品规划、交互设计与工程落地的 AI 内容生产 SaaS。产品基于开源的 Infinite Canvas / React Flow 画布能力，重新设计了适合批量生成的业务节点、工作流和结果管理方式。用户可以在同一画布中组合产品素材、参考版式、Prompt、尺寸、模型与品牌文案，并将组合直接转化为批量生成任务。目前产品已经部署上线，并持续面向真实生产场景迭代。', image: '/media/ai-canvas-1200.webp', imageAlt: 'AI 无限画布 — 主界面全景', mediaMode: 'feature', imageCaption: '产品素材、参考版式、Prompt、模型设置与生成结果在同一画布中形成可复用工作流', items: [] },
@@ -211,7 +211,7 @@ const commercialVideoZh: ProjectDetail = {
   tags: ['品牌广告', '电商营销', '社媒短视频', 'MG 动画'],
   meta: '商业项目 · 剪辑 / 动效 / 视觉节奏 / 投放素材',
   heroImage: '/media/mr-hero-900.webp', heroImageAlt: '',
-  nextProject: { slug: 'xiaonuan', name: '小暖' },
+  nextProject: { slug: 'ai-infinite-canvas', name: 'AI 无限画布' },
   sections: [
     { id: 'overview', label: 'Overview', title: '项目概述', body: '围绕品牌传播、电商转化与社媒投放制作的短片、主图视频和动态视觉素材。根据不同投放场景和平台特性，输出横版 16:9 和竖版 9:16 两种规格。', items: [{ title: '工作方法', body: '根据品牌调性梳理镜头节奏、字幕信息和转场方式。为不同投放场景输出横版、竖版和社媒信息流版本。兼顾可读性、产品露出和前 3 秒停留率。' }] },
     { id: 'landscape', label: 'Landscape · 16:9', title: '横版商业视频', body: '适合官网首屏、品牌介绍、平台主图与横版投放位，重点控制信息层级、产品露出和视觉节奏。', video: '/media/brand-ad-1.mp4', video2: '/media/brand-ad-2.mp4', items: [{ title: '品牌形象短片', body: '面向官网与展示场景，强调品牌调性与视觉氛围。节奏较慢，注重画面质感和色彩统一。' }, { title: '电商营销短片', body: '面向主图与投放素材场景，强调产品卖点与转化信息。前 3 秒快速进入主题，字幕清晰可读。' }] },
@@ -225,13 +225,13 @@ const commercialVideoZh: ProjectDetail = {
    ================================================================ */
 
 const xiaonuanKo: ProjectDetail = {
-  slug: 'xiaonuan', num: '01',
+  slug: 'xiaonuan', num: '03',
   name: '샤오누안', nameEn: 'AI Life Companion with Long-Term Memory',
   subtitle: '자연스러운 대화 속에서 사용자의 삶을 이해하고 기록하며 함께하는 멀티모달 AI 동반자',
   tags: ['정서적 동행', '장기 기억', '능동적 기록', '음성·이미지', '다중 통화 가계부', '생활 정보 검색'],
   meta: '2026.01 – 현재 · 독립 제품 · 중국어 베타 / 다국어 버전 개선 중',
   heroImage: '/media/xn-home-hero-760.webp', heroImageAlt: '',
-  nextProject: { slug: 'comic-studio', name: 'AI 만화극 제작 시스템' },
+  nextProject: { slug: 'milk-ribbon', name: 'Milk & Ribbon 브랜드 디자인' },
   mediaPresentation: 'phone',
   sections: [
     { id: 'overview', label: 'Product Vision', title: '삶을 기억하는 AI 동반자', body: '샤오누안은 모든 일을 대신 처리하는 만능 에이전트를 목표로 하지 않습니다. 사용자는 오늘의 지출, 기분, 약속부터 낯선 생활 문제까지 무엇이든 자연스럽게 물어볼 수 있습니다. 샤오누안은 대화 속에서 생활 습관을 이해하고 수입·지출, 일정, 일기를 필요한 곳에 능동적으로 기록하면서, 사용자가 필요할 때 다시 꺼내 볼 수 있는 지속적인 생활 맥락을 만듭니다.', video: '/media/ui-xiaonuan.mp4', videoPoster: '/media/xn-home-hero-760.webp', items: [{ label: '무엇이든 물어보는 생활 입구', body: '기록을 위해 정해진 명령을 입력할 필요 없이, 친구에게 말하듯 생활 속 질문과 경험을 공유합니다.' }, { label: '대화 뒤에 남는 자동 기록', body: '금액, 통화, 시간, 사건과 감정을 이해해 가계부·일정·일기 모듈에 능동적으로 정리합니다.' }, { label: '기능보다 관계를 우선', body: '목표는 더 많은 기능을 가진 슈퍼 에이전트가 아니라, 사용자의 삶을 오래 기억하고 섬세하게 반응하는 정서적 동반자입니다.' }] },
@@ -256,7 +256,7 @@ const comicStudioKo: ProjectDetail = {
   tags: ['대본 입력', '스토리보드 생성', '캐릭터 라이브러리', '배경 라이브러리', '멀티 모델 생성', 'API 로그'],
   meta: '2026.05 – 현재 · 개인 프로젝트',
   heroImage: '/media/cw-flow-03-900.webp', heroImageAlt: '',
-  nextProject: { slug: 'ai-infinite-canvas', name: 'AI 무한 캔버스' },
+  nextProject: { slug: 'xiaonuan', name: '샤오누안' },
   liveDemo: { url: 'https://studio.hanyue-room.design', labelZh: '线上访问产品', labelKo: '제품 방문하기', productLabelZh: '前往 Studio', productLabelKo: 'Studio 열기', inviteCodes: ['50F2858A', '3B492D37', '89795156', '20F0D359'], inviteNoteZh: '目前仅提供中文版本，使用邀请码注册', inviteNoteKo: '현재 중국어 버전만 제공, 초대 코드로 가입' },
   sections: [
     { id: 'problems', label: 'Problem Space', title: '한 장을 생성하는 것보다 한 편을 안정적으로 완성하는 것이 어렵습니다', body: '개별 모델은 이미지와 영상을 빠르게 만들 수 있지만, 실제 제작에서는 대본·캐릭터·배경·장면·모델 호출·완성본 버전을 계속 연결해야 합니다. 이 프로젝트는 “생성 가능 여부”가 아니라 “전체 제작 흐름을 반복 가능하고 통제 가능한 방식으로 완주할 수 있는가”를 해결합니다.', items: [{ title: '도구마다 끊기는 흐름', body: '대본, 스토리보드, 캐릭터 디자인, 배경 생성과 영상 제작이 여러 도구에 흩어져 정보 손실과 버전 혼란이 반복됩니다.' }, { title: '캐릭터와 화면의 불안정한 일관성', body: '모델은 생성할 때마다 얼굴, 의상과 장면 스타일을 바꿀 수 있습니다. 공통 에셋 기준이 없으면 연속 장면이 하나의 이야기처럼 보이지 않습니다.' }, { title: '복기할 수 없는 생성 비용', body: '모델마다 파라미터, 속도와 과금이 다릅니다. 호출 기록이 없으면 어떤 시도가 유효했고 어디에서 비용이 낭비됐는지 판단하기 어렵습니다.' }] },
@@ -273,13 +273,13 @@ const comicStudioKo: ProjectDetail = {
 };
 
 const infiniteCanvasKo: ProjectDetail = {
-  slug: 'ai-infinite-canvas', num: '03',
+  slug: 'ai-infinite-canvas', num: '01',
   name: 'AI 무한 캔버스', nameEn: 'AI Infinite Canvas Workflow Platform',
   subtitle: '이커머스·운영·비주얼 크리에이터를 위한 노드 기반 AI 콘텐츠 제작 SaaS',
   tags: ['SaaS 제품', '워크플로우 설계', '배치 생성', 'BYOK API', '3개 언어', 'Cloudflare 배포'],
   meta: '2026 · 독립 SaaS 제품 · 배포 완료 / 지속 개선 중',
   heroImage: '/media/xn-home-hero-760.webp', heroImageAlt: '',
-  nextProject: { slug: 'milk-ribbon', name: 'Milk & Ribbon 브랜드 디자인' },
+  nextProject: { slug: 'comic-studio', name: 'AI 만화극 제작 시스템' },
   liveDemo: { url: 'https://image.hanyue-room.design/', labelZh: '体验交互演示', labelKo: '인터랙티브 데모', productLabelZh: '访问线上产品', productLabelKo: '라이브 제품 보기' },
   sections: [
     { id: 'overview', label: 'Overview', title: '생성 도구에서 콘텐츠 제작 SaaS로', body: 'AI 무한 캔버스는 제품 기획, 인터랙션 설계, 엔지니어링 구현까지 독립적으로 완성한 AI 콘텐츠 제작 SaaS입니다. 오픈소스 Infinite Canvas / React Flow의 기본 캔버스 기능 위에 배치 생성에 필요한 비즈니스 노드, 워크플로우, 결과 관리 방식을 새롭게 설계했습니다. 사용자는 하나의 캔버스에서 제품 소재, 참조 레이아웃, 프롬프트, 크기, 모델, 브랜드 카피를 조합하고 이를 바로 배치 생성 작업으로 전환할 수 있습니다. 현재 제품은 실제 서비스로 배포되어 운영 중입니다.', image: '/media/ai-canvas-1200.webp', imageAlt: 'AI 무한 캔버스 — 메인 인터페이스', mediaMode: 'feature', imageCaption: '제품 소재, 참조 레이아웃, 프롬프트, 모델 설정과 생성 결과를 하나의 재사용 가능한 워크플로우로 구성', items: [] },
@@ -343,7 +343,7 @@ const commercialVideoKo: ProjectDetail = {
   tags: ['브랜드 광고', '이커머스', 'SNS 숏폼', '모션 그래픽'],
   meta: '상업 프로젝트 · 편집 / 모션 / 시각 리듬 / 광고 소재',
   heroImage: '/media/mr-hero-900.webp', heroImageAlt: '',
-  nextProject: { slug: 'xiaonuan', name: '샤오누안' },
+  nextProject: { slug: 'ai-infinite-canvas', name: 'AI 무한 캔버스' },
   sections: [
     { id: 'overview', label: 'Overview', title: '프로젝트 개요', body: '브랜드 커뮤니케이션, 이커머스 전환, SNS 광고를 위한 숏필름과 동적 비주얼 소재. 플랫폼 특성에 따라 가로형 16:9와 세로형 9:16 두 가지 규격으로 제작.', items: [{ title: '작업 방식', body: '브랜드 톤에 맞춰 쇼트 리듬, 자막 정보, 전환 방식을 정리합니다. 다양한 광고 시나리오에 맞춰 가로형, 세로형, SNS 피드 버전을 출력합니다. 가독성, 제품 노출, 첫 3초 체류율을 균형 있게 고려합니다.' }] },
     { id: 'landscape', label: 'Landscape · 16:9', title: '가로형 상업 영상', body: '공식 웹사이트, 브랜드 소개, 플랫폼 메인 이미지와 가로형 광고 지면에 맞춰 정보 위계, 제품 노출, 시각 리듬을 정리했습니다.', video: '/media/brand-ad-1.mp4', video2: '/media/brand-ad-2.mp4', items: [{ title: '브랜드 이미지 숏필름', body: '웹사이트 / 전시용. 브랜드 톤과 비주얼 분위기를 강조. 느린 리듬, 화면 질감과 색상 통일성 중시.' }, { title: '이커머스 마케팅 숏필름', body: '메인 이미지 / 광고 소재용. 제품 셀링 포인트와 전환 정보 강조. 첫 3초 내에 주제 진입, 자막 가독성 확보.' }] },

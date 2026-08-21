@@ -5,9 +5,13 @@ import Header from './Header.astro';
 
 interface Props { locale: Locale; t: SiteContent; }
 const { locale, t } = Astro.props;
-const projects = t.work.projects;
-const keywords = ['XIAONUAN', 'COMIC STUDIO', 'INFINITE CANVAS', 'MILK & RIBBON', 'MOTION'];
-const rowColors = ['#E3D9FF', '#101418', '#F7F7F5', '#FCE4EC', '#1A1A2E'];
+const projectOrder = [2, 1, 0, 3, 4];
+const projects = projectOrder.map((sourceIndex, index) => ({
+  ...t.work.projects[sourceIndex],
+  num: String(index + 1).padStart(2, '0'),
+}));
+const keywords = ['INFINITE CANVAS', 'COMIC STUDIO', 'XIAONUAN', 'MILK & RIBBON', 'MOTION'];
+const rowColors = ['#F7F7F5', '#101418', '#E3D9FF', '#FCE4EC', '#1A1A2E'];
 ---
 
 <Header locale={locale} nav={t.nav} currentPath={`/${locale}/work/`} />
