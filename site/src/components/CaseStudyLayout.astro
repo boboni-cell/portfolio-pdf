@@ -642,6 +642,12 @@ function buildMediaImages(s: typeof project.sections[0]) {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .cs-comic-project #canvas-workspace .cs-section-figure,
+  .cs-comic-project #director-stage .cs-section-figure,
+  .cs-comic-project #panorama .cs-section-figure {
+    max-width: 1180px;
+  }
+
   .cs-comic-project #program-structure .cs-cards {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
