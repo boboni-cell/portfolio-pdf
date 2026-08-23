@@ -52,6 +52,7 @@ function buildMediaImages(s: typeof project.sections[0]) {
   'cs-phone-project': project.mediaPresentation === 'phone',
   'cs-comic-project': project.slug === 'comic-studio',
   'cs-canvas-project': project.slug === 'ai-infinite-canvas',
+  'cs-brand-project': project.slug === 'milk-ribbon',
 }]} id="cs-root">
 
   <!-- Sticky section sidebar -->
@@ -688,6 +689,26 @@ function buildMediaImages(s: typeof project.sections[0]) {
     .cs-comic-project #technical-architecture .cs-cards {
       grid-template-columns: minmax(0, 1fr);
     }
+  }
+
+  /* Milk & Ribbon: keep the positioning copy clear and center its strategy board */
+  .cs-brand-project #positioning .cs-s-title {
+    max-width: 9em;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+    font-size: clamp(2rem, 3.2vw, 3rem);
+  }
+
+  .cs-brand-project #positioning .cs-fig-grid {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-top: clamp(3rem, 6vw, 5rem);
+  }
+
+  .cs-brand-project #positioning .cs-section-figure {
+    width: min(100%, 920px);
+    max-width: 920px;
   }
 
   /* Xiaonuan: portfolio diagrams for structure, iteration and technology */
