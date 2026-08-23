@@ -13,14 +13,10 @@ const effects: Map<string, MotionEffect> = new Map();
 let globalRAF = 0;
 const globalCallbacks: (() => void)[] = [];
 
-/** Check if motion should be disabled entirely */
+/** Respect the user's reduced-motion preference without disabling touch devices. */
 export function motionDisabled(): boolean {
   if (typeof window === 'undefined') return true;
-  return (
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-    window.matchMedia('(pointer: coarse)').matches ||
-    window.matchMedia('(hover: none)').matches
-  );
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
 /** Register a named effect; destroys any previous effect with the same name */

@@ -307,7 +307,11 @@ ul {
   white-space: nowrap;
 }
 
-@media (prefers-reduced-motion: reduce), (pointer: coarse), (hover: none) {
+@media (pointer: coarse), (hover: none) {
+  .mc-dot, .mc-ring { display: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
   .mc-dot, .mc-ring { display: none !important; }
   .mc-char { transform: none !important; }
 }
