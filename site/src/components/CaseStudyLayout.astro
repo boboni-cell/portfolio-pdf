@@ -11,6 +11,7 @@ const { project, nav, locale } = Astro.props;
 
 const transitionLabels: Record<string, string> = {
   'xiaonuan': 'XIAONUAN',
+  'koreahospital': 'OPERATIONS',
   'comic-studio': 'COMIC STUDIO',
   'ai-infinite-canvas': 'INFINITE CANVAS',
   'milk-ribbon': 'MILK & RIBBON',
@@ -52,6 +53,7 @@ function buildMediaImages(s: typeof project.sections[0]) {
   'cs-phone-project': project.mediaPresentation === 'phone',
   'cs-comic-project': project.slug === 'comic-studio',
   'cs-canvas-project': project.slug === 'ai-infinite-canvas',
+  'cs-operations-project': project.slug === 'koreahospital',
   'cs-brand-project': project.slug === 'milk-ribbon',
 }]} id="cs-root">
 
@@ -584,6 +586,14 @@ function buildMediaImages(s: typeof project.sections[0]) {
     font-size: clamp(2rem, 3.6vw, 3.35rem);
     line-height: 1.12;
     letter-spacing: -0.035em;
+  }
+
+  .cs-operations-project #overview .cs-s-title {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    text-wrap: balance;
+    line-height: 1.08;
   }
 
   .cs-canvas-project .cs-s-body {

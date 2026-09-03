@@ -122,6 +122,16 @@ const zh: SiteContent = {
       },
       {
         num: '03',
+        name: '运营工作台',
+        nameEn: 'AI-Driven Social Media Operations Workbench',
+        subtitle: '为一家韩国植发医院打造的 10 账号小红书 / 抖音 AI 协同运营工作台——人主导判断，AI 承担执行。',
+        tags: ['多 Agent 协同', '小红书 / 抖音', '医美合规', 'B 端工作台', 'Next.js 16', '信号 → 复盘'],
+        meta: '2026.04 – 至今 · 自研项目 · 已上线运营 · 个人 + 医院双向交付',
+        image: '/media/ai-canvas-1200.webp',
+        imageAlt: 'Koreahospital 运营工作台界面',
+      },
+      {
+        num: '04',
         name: 'AI 无限画布',
         nameEn: 'AI Infinite Canvas — Batch Image Generation Tool',
         subtitle: '用于无限画布式管理 Prompt、生成任务和结果，支持批量生成图片的 AI 工具开发项目',
@@ -131,7 +141,7 @@ const zh: SiteContent = {
         imageAlt: '',
       },
       {
-        num: '04',
+        num: '05',
         name: '品牌设计作品',
         nameEn: 'Brand Visual Design Works',
         subtitle: '以 Milk & Ribbon 为核心案例，展示品牌定位、视觉识别与物料系统设计',
@@ -141,7 +151,7 @@ const zh: SiteContent = {
         imageAlt: '',
       },
       {
-        num: '05',
+        num: '06',
         name: '商业视频与动态广告',
         nameEn: 'Commercial Video & Motion Ads',
         subtitle: '围绕品牌传播、电商转化与社媒投放制作的短片、主图视频和动态视觉素材',
@@ -274,6 +284,16 @@ const ko: SiteContent = {
       },
       {
         num: '03',
+        name: '운영 워크벤치',
+        nameEn: 'AI-Driven Social Media Operations Workbench',
+        subtitle: '한국 모발이식 병원의 10개 계정 샤오홍슈/틱톡 AI 협업 운영 워크벤치 — 사람의 판단, AI의 실행.',
+        tags: ['멀티 에이전트 협업', '샤오홍슈 / 틱톡', '의료 미용 컴플라이언스', 'B2B 워크벤치', 'Next.js 16', '신호 → 회고'],
+        meta: '2026.04 – 현재 · 자작 프로젝트 · 실제 운영 중 · 개인 + 병원 양방향 납품',
+        image: '/media/ai-canvas-1200.webp',
+        imageAlt: 'Koreahospital 운영 워크벤치 인터페이스',
+      },
+      {
+        num: '04',
         name: 'AI 무한 캔버스',
         nameEn: 'AI Infinite Canvas — Batch Image Generation Tool',
         subtitle: '무한 캔버스에서 Prompt, 생성 작업, 결과물을 관리하고 배치 이미지 생성을 지원하는 AI 도구 개발 프로젝트',
@@ -293,7 +313,7 @@ const ko: SiteContent = {
         imageAlt: '',
       },
       {
-        num: '05',
+        num: '06',
         name: '상업 영상과 모션 광고',
         nameEn: 'Commercial Video & Motion Ads',
         subtitle: '브랜드 커뮤니케이션, 이커머스 전환, SNS 광고를 위한 숏필름과 동적 비주얼 소재',
